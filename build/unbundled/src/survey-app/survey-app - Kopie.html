@@ -1,0 +1,30 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-checked-element-behavior.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+
+
+</head><body><dom-module id="survey-app">
+    <template>
+        <style>:host{display:block;--app-primary-color:#4285f4;--app-secondary-color:black;}app-header{background-color:var(--app-primary-color);color:#fff;}app-header paper-icon-button{--paper-icon-button-ink-color:white;}.card{box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);padding:16px;margin:24px;border-radius:5px;background-color:#fff;color:#757575;}</style>
+
+        <app-header effects="parallax-background">
+            <app-toolbar>
+                <div title="">HCI-Umfrage App</div>
+            </app-toolbar>
+        </app-header>
+        <div id="survey">
+        </div>
+        <paper-radio-group>
+            <paper-radio-button name="yes">yes</paper-radio-button>
+            <paper-radio-button name="no">no</paper-radio-button>
+        </paper-radio-group>
+    </template>
+
+    <script>function foo(){function e(e,t){function n(e,t){var n=document.createElement("paper-checkbox"),o=document.createElement("br");n.setAttribute("name",e),n.setAttribute("value",e),n.children[1].innerHTML=e,n.children[1].removeAttribute("hidden"),i.appendChild(n),i.appendChild(o)}function o(e,t){var n=document.createElement("paper-radio-button"),o=document.createElement("br");n.setAttribute("name",e),n.setAttribute("tabindex",-1),n.setAttribute("toggles",""),n.className="style-scope survey-app",n.children[1].innerHTML=e,n.children[1].removeAttribute("hidden"),d.appendChild(n),d.appendChild(o),i.appendChild(d)}var a=document.getElementById("survey"),r=document.createElement("div");r.className="card style-scope survey-app",a.appendChild(r);var s=document.createElement("div");s.className="question",s.innerHTML="Frage: "+questions[t].question,r.appendChild(s);var i=document.createElement("div");if(i.className="answers","check"==questions[t].mode)questions[t].answers.forEach(n);else{var d=document.createElement("paper-radio-group");d.className="style-scope survey-ap",questions[t].answers.forEach(o)}r.appendChild(i)}questions.forEach(e)}Polymer({is:"survey-app",properties:{prop1:{type:String,value:"survey-app"}},ready:function(){foo()}});var questions=[{question:"What do you want for christmas?",mode:"check",answers:["Nintendo","iPony","You","A tiny little Shotgun"]},{question:"What do you want for birthday?",mode:"check",answers:["Nintendo","iPony","You","A tiny little Shotgun"]},{question:"BigMac??",mode:"radio",answers:["yes","no"]}];console.log(questions);</script>
+</dom-module></body></html>

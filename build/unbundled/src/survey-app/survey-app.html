@@ -1,0 +1,43 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-checked-element-behavior.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+
+
+</head><body><dom-module id="survey-app">
+    <template>
+        <style>:host{display:block;--app-primary-color:#4285f4;--app-secondary-color:black;}app-header{background-color:var(--app-primary-color);color:#fff;}app-header paper-icon-button{--paper-icon-button-ink-color:white;}.card{box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);padding:16px;margin:24px;border-radius:5px;background-color:#fff;color:#757575;}</style>
+
+        <app-header effects="parallax-background">
+            <app-toolbar>
+                <div title="">HCI-Umfrage App</div>
+            </app-toolbar>
+        </app-header>
+        <template is="dom-repeat" items="{{questions}}">
+            <div class="card">
+                <div class="question">Frage {{index}}: {{item.question}}</div>
+                <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+                    <template is="dom-repeat" items="{{item.answers}}">
+                        <paper-checkbox>{{item}}</paper-checkbox>
+                        <br>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+                    <paper-radio-group>
+                        <template is="dom-repeat" items="{{item.answers}}">
+                            <paper-radio-button name="{{item}}">{{item}}</paper-radio-button>
+                            <br>
+                        </template>
+                    </paper-radio-group>
+                </template>
+            </div>
+        </template>
+    </template>
+
+    <script>Polymer({is:"survey-app",properties:{prop1:{type:String,value:"survey-app"}},ready:function(){this.questions=[{question:"What do you want for christmas?",mode:"check",answers:["Nintendo","iPony","You","A tiny little Shotgun"]},{question:"What do you want for birthday?",mode:"check",answers:["Nintendo","iPony","You","A tiny little Shotgun"]},{question:"BigMac??",mode:"radio",answers:["yes","no"]}]},_isCheckQuestion:function(o){return"check"==o.mode},_isRadioQuestion:function(o){return"radio"==o.mode}});</script>
+</dom-module></body></html>

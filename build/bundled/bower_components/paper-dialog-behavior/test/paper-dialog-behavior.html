@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head>
+
+    <title>paper-dialog-behavior tests</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+    <link rel="import" href="../../test-fixture/test-fixture.html">
+    <link rel="import" href="test-dialog.html">
+
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <test-dialog>
+          <p>Dialog</p>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="modal">
+      <template>
+        <test-dialog modal="">
+          <p>Dialog</p>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="backdrop">
+      <template>
+        <test-dialog with-backdrop="">
+          <p>Dialog</p>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="header">
+      <template>
+        <test-dialog>
+          <h2>Dialog</h2>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="header-with-id">
+      <template>
+        <test-dialog>
+          <h2 id="header">Dialog</h2>
+          <div class="buttons">
+            <button dialog-dismiss="">dismiss</button>
+            <button dialog-confirm="" autofocus="">confirm</button>
+          </div>
+        </test-dialog>
+      </template>
+    </test-fixture>
+
+    <script>function runAfterOpen(e,t){e.addEventListener("iron-overlay-opened",function(){t()}),e.open()}suite("basic",function(){test("clicking dialog does not cancel the dialog",function(e){var t=fixture("basic");runAfterOpen(t,function(){t.addEventListener("iron-overlay-closed",function(){assert("dialog should not close")}),t.click(),setTimeout(function(){e()},100)})}),test("clicking dialog-dismiss button closes the dialog without confirmation",function(e){var t=fixture("basic");runAfterOpen(t,function(){t.addEventListener("iron-overlay-closed",function(t){assert.isFalse(t.detail.canceled,"dialog is not canceled"),assert.isFalse(t.detail.confirmed,"dialog is not confirmed"),e()}),Polymer.dom(t).querySelector("[dialog-dismiss]").click()})}),test("clicking dialog-confirm button closes the dialog with confirmation",function(e){var t=fixture("basic");runAfterOpen(t,function(){t.addEventListener("iron-overlay-closed",function(t){assert.isFalse(t.detail.canceled,"dialog is not canceled"),assert.isTrue(t.detail.confirmed,"dialog is confirmed"),e()}),Polymer.dom(t).querySelector("[dialog-confirm]").click()})}),test("with-backdrop works",function(){var e=fixture("backdrop");runAfterOpen(e,function(){assert.isTrue(e.backdropElement.opened,"backdrop is open")})}),test("modal dialog has backdrop",function(){var e=fixture("modal");assert.isTrue(e.withBackdrop,"withBackdrop is true")}),test("modal dialog has no-cancel-on-outside-click",function(){var e=fixture("modal");assert.isTrue(e.noCancelOnOutsideClick,"noCancelOnOutsideClick is true")}),test("clicking outside a modal dialog does not move focus from dialog",function(e){var t=fixture("modal");runAfterOpen(t,function(){t.backdropElement.click(),setTimeout(function(){assert.equal(document.activeElement,Polymer.dom(t).querySelector("[autofocus]"),"document.activeElement is the autofocused button"),e()},10)})})}),suite("a11y",function(){test('dialog has role="dialog"',function(){var e=fixture("basic");assert.equal(e.getAttribute("role"),"dialog",'has role="dialog"')}),test("dialog has aria-modal=false",function(){var e=fixture("basic");assert.equal(e.getAttribute("aria-modal"),"false",'has aria-modal="false"')}),test("modal dialog has aria-modal=true",function(){var e=fixture("modal");assert.equal(e.getAttribute("aria-modal"),"true",'has aria-modal="true"')}),test("dialog with header has aria-labelledby",function(){var e=fixture("header"),t=Polymer.dom(e).querySelector("h2");assert.ok(t.getAttribute("id"),"header has auto-generated id"),assert.equal(e.getAttribute("aria-labelledby"),t.getAttribute("id"),"aria-labelledby is set to header id")}),test("dialog with lazily created header has aria-labelledby",function(e){var t=fixture("basic"),a=document.createElement("h2");Polymer.dom(t).appendChild(a),Polymer.dom.flush(),setTimeout(function(){assert.ok(a.getAttribute("id"),"header has auto-generated id"),assert.equal(t.getAttribute("aria-labelledby"),a.getAttribute("id"),"aria-labelledby is set to header id"),e()},10)}),test("dialog with header with id preserves id and has aria-labelledby",function(){var e=fixture("header-with-id"),t=Polymer.dom(e).querySelector("h2");assert.equal(t.getAttribute("id"),"header","header has preset id"),assert.equal(e.getAttribute("aria-labelledby"),"header","aria-labelledby is set to header id")})});</script>
+
+  
+
+</body></html>
