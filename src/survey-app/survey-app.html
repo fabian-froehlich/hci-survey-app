@@ -13,6 +13,7 @@
     <template>
         <style is="custom-style">
             :host {
+                font-size: 1.2em;
                 display: block;
                 --app-primary-color: #4285f4;
                 --app-secondary-color: black;
@@ -37,9 +38,18 @@
             }
             
             paper-checkbox {
-                --paper-checkbox-size: 50px;
+                --paper-checkbox-size: 30px;
+            }
+            
+            paper-radio-button {
+                --paper-radio-button-size: 30px;
+            }
+            
+            paper-radio-group {
+                --paper-radio-group-item-padding: 0px;
             }
         </style>
+
 
         <app-header effects="parallax-background">
             <app-toolbar>
@@ -50,18 +60,14 @@
             <div class="card">
                 <div class="question">Frage {{index}}: {{item.question}}</div>
                 <template is="dom-if" if="{{_isCheckQuestion(item)}}">
-                    <br>
                     <template is="dom-repeat" items="{{item.answers}}">
-                        <paper-checkbox class="custom cb">{{item}}</paper-checkbox>
-                        <br>
-                        <br>
+                        <p><paper-checkbox>{{item}}</paper-checkbox></p>
                     </template>
                 </template>
                 <template is="dom-if" if="{{_isRadioQuestion(item)}}">
                     <paper-radio-group>
                         <template is="dom-repeat" items="{{item.answers}}">
-                            <paper-radio-button name="{{item}}">{{item}}</paper-radio-button>
-                            <br>
+                            <p><paper-radio-button name="{{item}}">{{item}}</paper-radio-button></p>
                         </template>
                     </paper-radio-group>
                 </template>
@@ -85,27 +91,26 @@
                         , "mode": "check"
                         , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
             }
+
                     
                     , {
                         "question": "When mommy says no, who do you ask next?"
                         , "mode": "radio"
                         , "answers": ["Daddy", "Dog", "no one"]
             }
-
                     
                     , {
                         "question": "What do you want for birthday?"
                         , "mode": "check"
                         , "answers": ["The", "cake", "is", "a", "lie"]
             }
-
                     
                     , {
                         "question": "What do you want for namesday?"
                         , "mode": "check"
                         , "answers": ["movie-tickets", "peace"]
             }
-
+                    
                     , {
                         "question": "BigMac??"
                         , "mode": "radio"
