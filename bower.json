@@ -4,14 +4,14 @@
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "app-layout": "PolymerElements/app-layout#0.9.0",
-    "iron-form": "PolymerElements/iron-form#1.0.0",
-    "paper-checkbox": "PolymerElements/paper-checkbox#1.0.0",
-    "paper-behaviors": "PolymerElements/paper-behaviors#^1.0.11",
-    "paper-dialog-behavior": "PolymerElements/paper-dialog-behavior#1.0.0",
-    "paper-radio-button": "PolymerElements/paper-radio-button#^1.2.1",
-    "paper-radio-group": "PolymerElements/paper-radio-group#^1.2.0",
-    "iron-pages": "PolymerElements/iron-pages#^1.0.7"
+    "app-layout": "^0.9.1",
+    "iron-form": "^1.0.16",
+    "paper-checkbox": "^1.2.0",
+    "paper-behaviors": "^1.0.11",
+    "paper-dialog-behavior": "^1.2.6",
+    "paper-radio-button": "^1.2.1",
+    "paper-radio-group": "^1.2.0",
+    "iron-pages": "^1.0.7"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
