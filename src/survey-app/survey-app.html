@@ -66,8 +66,11 @@
                 </template>
                 <template is="dom-if" if="{{_isRadioQuestion(item)}}">
                     <paper-radio-group>
+                        <br>
                         <template is="dom-repeat" items="{{item.answers}}">
-                            <p><paper-radio-button name="{{item}}">{{item}}</paper-radio-button></p>
+                            <paper-radio-button name="{{item}}">{{item}}</paper-radio-button>
+                            <br>
+                            <br>
                         </template>
                     </paper-radio-group>
                 </template>
