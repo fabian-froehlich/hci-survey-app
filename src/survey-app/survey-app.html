@@ -69,99 +69,98 @@
                 <div title>HCI-Umfrage App</div>
             </app-toolbar>
         </app-header>
-            <template is="dom-repeat" items="{{questions}}" id="survey_form">
-                <div class="card">
-                    <div class="question">Frage {{index}}: {{item.question}}</div>
-                    <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+        <template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="outerIndex">
+            <div class="card">
+                <div class="question">Frage {{plusOne(outerIndex)}}: {{item.question}}</div>
+                <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+                    <template is="dom-repeat" items="{{item.answers}}">
+                        <p>
+                            <paper-checkbox on-tap="timeStampHandler" data-args$="{{outerIndex}}, {{item}}">{{item}}</paper-checkbox>
+                        </p>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+                    <paper-radio-group>
+                        <br>
                         <template is="dom-repeat" items="{{item.answers}}">
-                            <p>
-                                <paper-checkbox on-tap="checkBoxHandler" data-args="{{index}}">{{item}}</paper-checkbox>
-                            </p>
-                        </template>
-                    </template>
-                    <template is="dom-if" if="{{_isRadioQuestion(item)}}">
-                        <paper-radio-group>
+                            <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{outerIndex}}, {{item}}">{{item}}</paper-radio-button>
                             <br>
-                            <template is="dom-repeat" items="{{item.answers}}">
-                                <paper-radio-button name="{{item}}">{{item}}</paper-radio-button>
-                                <br>
-                                <br>
-                            </template>
-                        </paper-radio-group>
-                    </template>
-                </div>
-            </template>
-            <div>
-                <div class="buttons">
-                    <paper-button raised on-tap="sendSurvey" class="custom indigo">
-                        Umfrage abschicken
-                    </paper-button>
-                </div>
+                            <br>
+                        </template>
+                    </paper-radio-group>
+                </template>
             </div>
+        </template>
+        <div>
+            <div class="buttons">
+                <paper-button raised on-tap="sendSurvey" class="custom indigo" data-args="asd">
+                    Umfrage abschicken
+                </paper-button>
+            </div>
+        </div>
     </template>
 
     <script>
         Polymer({
             is: 'survey-app'
-            , checkBoxHandler: function (e) {
-                //console.log(e.target.dataset.args);
-                this.data.push({index: e.target.getAttribute('data-args'), time: Date.now()});
+            , timeStampHandler: function (e) {
+                var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
+                this.data.push({
+                    index: args[0]
+                    , answer: args[1]
+                    , time: Date.now()
+                });
+
             }
-            , sendSurvey: function () {
+            , sendSurvey: function (e) {
                 console.log(this.data);
+            },
+            plusOne: function(index){
+                return index+1;
             }
             , properties: {
                 prop1: {
                     type: String
                     , value: 'survey-app'
-                },
-                //data:{
-                //    type: Array,
-                //    notify: true
-                //}
-            }
+                }
+            , }
             , ready: function () {
-                this.data = [],
-                this.questions = [
-                    {
-                        "question": "What do you want for christmas?"
-                        , "mode": "check"
-                        , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
+                this.data = []
+                    , this.questions = [
+                        {
+                            "question": "What do you want for christmas?"
+                            , "mode": "check"
+                            , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
             }
 
-                    
-                    , {
-                        "question": "When mommy says no, who do you ask next?"
-                        , "mode": "radio"
-                        , "answers": ["Daddy", "Dog", "no one"]
+                        , {
+                            "question": "When mommy says no, who do you ask next?"
+                            , "mode": "radio"
+                            , "answers": ["Daddy", "Dog", "no one"]
             }
 
-                    
-                    , {
-                        "question": "What do you want for birthday?"
-                        , "mode": "check"
-                        , "answers": ["The", "cake", "is", "a", "lie"]
+                        , {
+                            "question": "What do you want for birthday?"
+                            , "mode": "check"
+                            , "answers": ["The", "cake", "is", "a", "lie"]
             }
 
-                    
-                    , {
-                        "question": "What do you want for namesday?"
-                        , "mode": "check"
-                        , "answers": ["movie-tickets", "peace"]
+                        , {
+                            "question": "What do you want for namesday?"
+                            , "mode": "check"
+                            , "answers": ["movie-tickets", "peace"]
             }
 
-                    
-                    , {
-                        "question": "BigMac??"
-                        , "mode": "radio"
-                        , "answers": ["yes", "no"]
+                        , {
+                            "question": "BigMac??"
+                            , "mode": "radio"
+                            , "answers": ["yes", "no"]
             }
 
-                    
-                    , {
-                        "question": "What is your name?"
-                        , "mode": "radio"
-                        , "answers": ["A girl has no name"]
+                        , {
+                            "question": "What is your name?"
+                            , "mode": "radio"
+                            , "answers": ["A girl has no name"]
             }
 
         ];
