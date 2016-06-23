@@ -30,6 +30,7 @@
 			border-radius: 5px;
 			background-color: #fff;
 			color: #757575;
+			height: 50vh;
 		}
 
 
@@ -83,11 +84,13 @@
 </template>
 
 <script>
+	var answers = [];
 	Polymer({
 		is: "survey-spsq",
 		ready: function () {
 			this.questions = [
                     {
+                        "key": 12
                         "question": "What do you want for christmas?"
                         , "mode": "check"
                         , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
@@ -136,6 +139,7 @@
 		nextQuestion: function(e) {
 			//alert('next!');
 			var pages = document.querySelector('iron-pages');
+			questionIndex = pages.selected
 			pages.selectNext();
 		},
 		previousQuestion: function(e) {
@@ -143,6 +147,8 @@
 			pages.selectPrevious();
 		},
 	});
+
+
 
 </script>
 </dom-module>
