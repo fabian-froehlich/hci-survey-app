@@ -1,7 +1,0 @@
-{
-  "name": "HCI - Survey App",
-  "short_name": "HCI - Survey App",
-  "description": "hci survey app",
-  "start_url": "/",
-  "display": "standalone"
-}
