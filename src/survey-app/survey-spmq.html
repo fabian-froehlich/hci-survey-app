@@ -11,7 +11,7 @@
 
 
 
-<dom-module id="survey-app">
+<dom-module id="survey-spmq">
     <template>
         <style is="custom-style">
             :host {
@@ -69,13 +69,13 @@
                 <div title>HCI-Umfrage App</div>
             </app-toolbar>
         </app-header>
-        <template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="outerIndex">
+        <template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="questionNumber">
             <div class="card">
-                <div class="question">Frage {{plusOne(outerIndex)}}: {{item.question}}</div>
+                <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                 <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                     <template is="dom-repeat" items="{{item.answers}}">
                         <p>
-                            <paper-checkbox on-tap="timeStampHandler" data-args$="{{outerIndex}}, {{item}}">{{item}}</paper-checkbox>
+                            <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
                         </p>
                     </template>
                 </template>
@@ -83,7 +83,7 @@
                     <paper-radio-group>
                         <br>
                         <template is="dom-repeat" items="{{item.answers}}">
-                            <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{outerIndex}}, {{item}}">{{item}}</paper-radio-button>
+                            <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
                             <br>
                             <br>
                         </template>
@@ -91,26 +91,31 @@
                 </template>
             </div>
         </template>
-        <div>
             <div class="buttons">
-                <paper-button raised on-tap="sendSurvey" class="custom indigo" data-args="asd">
+                <paper-button raised on-tap="sendSurvey" class="custom indigo">
                     Umfrage abschicken
                 </paper-button>
             </div>
-        </div>
     </template>
 
     <script>
         Polymer({
-            is: 'survey-app'
+            is: 'survey-spmq'
             , timeStampHandler: function (e) {
                 var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
-                this.data.push({
-                    index: args[0]
-                    , answer: args[1]
-                    , time: Date.now()
-                });
+                //this.data.push({
+                //    index: args[0]
+                //    , answer: args[1]
+                 //   , time: Date.now()});
 
+                var i = args[0];
+                if(this.data[i] instanceof Array){
+                   this.data[i].push({answer: args[1], time: Date.now()});
+                }
+                else{
+                    this.data[i] = new Array();
+                    this.data[i].push({answer: args[1], time: Date.now()});
+                }
             }
             , sendSurvey: function (e) {
                 console.log(this.data);
@@ -121,12 +126,12 @@
             , properties: {
                 prop1: {
                     type: String
-                    , value: 'survey-app'
+                    , value: 'survey-spmq'
                 }
             , }
             , ready: function () {
-                this.data = []
-                    , this.questions = [
+                this.data = new Object(); 
+                this.questions = [
                         {
                             "question": "What do you want for christmas?"
                             , "mode": "check"
