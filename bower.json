@@ -11,7 +11,8 @@
     "paper-dialog-behavior": "^1.2.6",
     "paper-radio-button": "^1.2.1",
     "paper-radio-group": "^1.2.0",
-    "iron-pages": "^1.0.7"
+    "iron-pages": "^1.0.7",
+    "paper-input": "^1.1.13"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

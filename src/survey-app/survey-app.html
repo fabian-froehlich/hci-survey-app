@@ -1,0 +1,361 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- IRON ELEMENTS -->
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<!-- PAPER ELEMENTS -->
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-checked-element-behavior.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<!-- APP ELEMENTS -->
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+
+
+<dom-module id="survey-app">
+<template>
+	<style>
+		:host {
+			display: block;
+			--app-primary-color: #4285f4;
+			--app-secondary-color: black;
+		}
+
+		app-header {
+			background-color: var(--app-primary-color);
+			color: #fff;
+		}
+
+		app-header paper-icon-button {
+			--paper-icon-button-ink-color: white;
+		}
+
+		.card {
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+			padding: 16px;
+			margin: 24px;
+			border-radius: 5px;
+			background-color: #fff;
+			color: #757575;
+			height: 50vh;
+		}
+		paper-checkbox {
+            --paper-checkbox-size: 30px;
+        }
+            
+		paper-radio-button {
+			--paper-radio-button-size: 30px;
+        }
+            
+        paper-radio-group {
+            --paper-radio-group-item-padding: 0px;
+		}
+
+		paper-button.indigo {
+		    background-color: var(--paper-indigo-500);
+		    color: white;
+		    --paper-button-raised-keyboard-focus: {
+		      background-color: var(--paper-pink-a200) !important;
+		      color: white !important;
+		    };
+		}
+		paper-button.indigo[disabled] {
+			background-color: grey;
+		}
+	</style>
+	
+	<app-header effects="parallax-background">
+	<app-toolbar>
+	<div title>HCI-Umfrage App</div>
+</app-toolbar>
+</app-header>
+<div id="fParticipantId" class="card">
+                <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
+                <paper-input required on-input="validateParticipantId" validateImmediately id="participantId" type="number" label="Teilnehmernummer"></paper-input>
+                <div class="buttons">
+                	<paper-button raised id="bSurveyStart" disabled=true on-tap="startSurvey" class="custom indigo">
+                    	Umfrage starten
+                	</paper-button>
+            	</div>
+</div>
+<iron-pages class="surveySelection">
+	<!--
+  	# # # # # # # # # # # # # # # # # 
+  	# SPSQ-LONG-SHORT STARTING HERE #
+	# # # # # # # # # # # # # # # # #
+   -->
+  <div class="spsq-long-short" id="spsq-long-short">	
+	<iron-pages selected="0">
+	  <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
+	      <div class="card">
+	          <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
+	          <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+	              <template is="dom-repeat" items="{{item.answers}}">
+	                  <p>
+	                  	<paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+	                  </p>
+	              </template>
+	          </template>
+	          <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+	              <paper-radio-group>
+	              	<br>
+	                  <template is="dom-repeat" items="{{item.answers}}">
+	                      <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+	                      <br>
+	                      <br>
+	                  </template>
+	              </paper-radio-group>
+	          </template>
+	      </div>
+
+	  </template>
+	  <div class="card">
+	  	<div class="buttons">
+                <paper-button raised on-tap="sendSurvey" class="custom indigo">
+                    Umfrage abschicken
+                </paper-button>
+            </div>
+	  </div>
+	</iron-pages>
+	<paper-dialog-impl>
+	    <div class="buttons">
+	      <paper-button raised on-tap="previousQuestion" class="custom indigo">
+	        Zurück
+	      </paper-button>
+	      <paper-button raised on-tap="nextQuestion" class="custom indigo">
+	        Weiter
+	      </paper-button>
+	    </div>
+	</paper-dialog-impl>
+  </div>
+  <!--
+  	# # # # # # # # # # # # # # # # # 
+  	# SPSQ-SHORT-LONG STARTING HERE #
+	# # # # # # # # # # # # # # # # #
+   -->
+  <div class="spsq-short-long" id="spsq-short-long"><iron-pages selected="0">
+	  <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
+	      <div class="card">
+	          <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
+	          <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+	              <template is="dom-repeat" items="{{item.answers}}">
+	                  <p>
+	                  	<paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+	                  </p>
+	              </template>
+	          </template>
+	          <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+	              <paper-radio-group>
+	              	<br>
+	                  <template is="dom-repeat" items="{{item.answers}}">
+	                      <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+	                      <br>
+	                      <br>
+	                  </template>
+	              </paper-radio-group>
+	          </template>
+	      </div>
+	  </template>
+	</iron-pages>
+	<paper-dialog-impl>
+	    <div class="buttons">
+	      <paper-button raised on-tap="previousQuestion" class="custom indigo">
+	        Zurück
+	      </paper-button>
+	      <paper-button raised on-tap="nextQuestion" class="custom indigo">
+	        Weiter
+	      </paper-button>
+	    </div>
+	</paper-dialog-impl>
+ </div>
+  <!--
+  	# # # # # # # # # # # # # # # # # 
+  	# SPMQ-LONG-SHORT STARTING HERE #
+	# # # # # # # # # # # # # # # # #
+   -->
+  <div class="spmq-long-short" id="spmq-long-short">
+  	<template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="questionNumber">
+            <div class="card">
+                <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
+                <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+                    <template is="dom-repeat" items="{{item.answers}}">
+                        <p>
+                            <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                        </p>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+                    <paper-radio-group>
+                        <br>
+                        <template is="dom-repeat" items="{{item.answers}}">
+                            <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                            <br>
+                            <br>
+                        </template>
+                    </paper-radio-group>
+                </template>
+            </div>
+        </template>
+            <div class="buttons">
+                <paper-button raised on-tap="sendSurvey" class="custom indigo">
+                    Umfrage abschicken
+                </paper-button>
+            </div>
+  </div>
+  <!--
+  	# # # # # # # # # # # # # # # # # 
+  	# SPMQ-SHORT-LONG STARTING HERE #
+	# # # # # # # # # # # # # # # # #
+   -->
+  <div class="spmq-short-long" id="spmq-short-long">
+  	<div class="spmq-long-short" id="spmq-long-short">
+  	<template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="questionNumber">
+            <div class="card">
+                <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
+                <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+                    <template is="dom-repeat" items="{{item.answers}}">
+                        <p>
+                            <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                        </p>
+                    </template>
+                </template>
+                <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+                    <paper-radio-group>
+                        <br>
+                        <template is="dom-repeat" items="{{item.answers}}">
+                            <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                            <br>
+                            <br>
+                        </template>
+                    </paper-radio-group>
+                </template>
+            </div>
+        </template>
+            <div class="buttons">
+                <paper-button raised on-tap="sendSurvey" class="custom indigo">
+                    Umfrage abschicken
+                </paper-button>
+            </div>
+  </div>
+  </div>
+</iron-pages>
+</template>
+<script>
+		var answers = [];
+		Polymer({
+			is: "survey-app",
+			ready: function () {
+				this.data = new Object(); 
+				this.questions = [
+	                    {
+	                        "key": 12
+	                        , "question": "What do you want for christmas?"
+	                        , "mode": "check"
+	                        , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
+	            }
+	                    
+	                    , {
+	                        "question": "When mommy says no, who do you ask next?"
+	                        , "mode": "radio"
+	                        , "answers": ["Daddy", "Dog", "no one"]
+	            }
+
+	                    
+	                    , {
+	                        "question": "What do you want for birthday?"
+	                        , "mode": "check"
+	                        , "answers": ["The", "cake", "is", "a", "lie"]
+	            }
+
+	                    
+	                    , {
+	                        "question": "What do you want for namesday?"
+	                        , "mode": "check"
+	                        , "answers": ["movie-tickets", "peace"]
+	            }
+
+	                    , {
+	                        "question": "BigMac??"
+	                        , "mode": "radio"
+	                        , "answers": ["yes", "no"]
+	            }
+	                    
+	                    , {
+	                        "question": "What is your name?"
+	                        , "mode": "radio"
+	                        , "answers": ["A girl has no name"]
+	            }
+
+	        ];
+			}
+			, _isCheckQuestion: function (question) {
+			    return question.mode == 'check'
+			}
+			, _isRadioQuestion: function (question) {
+			    return question.mode == 'radio'
+			},
+			validateParticipantId: function(e) {
+				var participantId = document.querySelector('#participantId').value;
+				var max = 1999;
+				var min = 1000;
+				//we give the participants a 4-digit number between max and min
+				if(participantId >= min && participantId <= max && participantId.toString().length === 4) {
+					document.querySelector('#bSurveyStart').disabled = false;
+				} else {
+					document.querySelector('#bSurveyStart').disabled = true;
+				}
+			},
+			nextQuestion: function(e) {
+				var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
+				var pages = document.querySelector('div.'  + id.toString() + ' iron-pages');
+				questionIndex = pages.selected
+				pages.selectNext();
+			},
+			previousQuestion: function(e) {
+				var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
+				var pages = document.querySelector('div.'  + id.toString() + ' iron-pages');
+				pages.selectPrevious();
+			},
+			startSurvey: function(e) {
+				var participantId = document.querySelector('#participantId').value;
+				//choose the survey type
+				var nr = participantId%4;
+				var survSelec = document.querySelector('iron-pages.surveySelection');
+				survSelec.selected = nr;
+				//save survey type and participant id
+				this.data["surveyType"] = survSelec.selectedItem.id;
+				this.data["participantId"] = participantId;
+				//hide the initial participant form
+				document.querySelector('#fParticipantId').hidden = true;
+				
+			},
+			timeStampHandler: function (e) {
+                var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
+                //this.data.push({
+                //    index: args[0]
+                //    , answer: args[1]
+                 //   , time: Date.now()});
+
+                var i = args[0];
+                if(this.data[i] instanceof Array){
+                   this.data[i].push({answer: args[1], time: Date.now()});
+                }
+                else{
+                    this.data[i] = new Array();
+                    this.data[i].push({answer: args[1], time: Date.now()});
+                }
+            }, 
+            sendSurvey: function (e) {
+                console.log(this.data);
+            },
+            plusOne: function(index){
+                return index+1;
+            }
+		});
+	</script>
+</dom-module>
+
