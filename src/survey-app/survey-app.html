@@ -366,7 +366,8 @@
             }
 
             
-            , _isNotEnd: function () {
+            , //does not work in dom-if; proberbly because the dom-if is calculated before other elements of the dom. error sais that ID can not be found. 
+            _isNotEnd: function () {
                 console.log("test");
                 var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
                 var pages = document.querySelector('div.' + id.toString() + ' iron-pages');
