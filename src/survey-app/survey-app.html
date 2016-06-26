@@ -92,7 +92,7 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-long-short" id="spsq-long-short">
-                <iron-pages selected="0">
+                <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
                     <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
                         <div class="card">
                             <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
@@ -126,15 +126,18 @@
                 </iron-pages>
                 <paper-dialog-impl>
                     <div class="buttons">
+                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
                         <paper-button raised on-tap="previousQuestion" class="custom indigo">
                             Zurück
                         </paper-button>
-                        <paper-button raised on-tap="nextQuestion" class="custom indigo">
-                            Weiter
-                        </paper-button>
+                        </template>
+                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
+                            <paper-button raised on-tap="nextQuestion" class="custom indigo">
+                                Weiter
+                            </paper-button>
+                        </template>
                     </div>
                 </paper-dialog-impl>
-
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -142,7 +145,7 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-short-long" id="spsq-short-long">
-                <iron-pages selected="0">
+                <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
                     <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
                         <div class="card">
                             <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
@@ -175,12 +178,16 @@
                 </iron-pages>
                 <paper-dialog-impl>
                     <div class="buttons">
+                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
                         <paper-button raised on-tap="previousQuestion" class="custom indigo">
                             Zurück
                         </paper-button>
-                        <paper-button raised on-tap="nextQuestion" class="custom indigo">
-                            Weiter
-                        </paper-button>
+                        </template>
+                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
+                            <paper-button raised on-tap="nextQuestion" class="custom indigo">
+                                Weiter
+                            </paper-button>
+                        </template>
                     </div>
                 </paper-dialog-impl>
             </div>
@@ -258,6 +265,7 @@
         Polymer({
             is: "survey-app"
             , ready: function () {
+                this.pageIdx = 0;
                 this.data = new Object();
                 this.questions = [
                     {
@@ -298,9 +306,6 @@
 	        ];
             }
 
-
-
-            
             , validateParticipantId: function (e) {
                 var participantId = document.querySelector('#participantId').value;
                 var max = 1999;
@@ -328,19 +333,14 @@
 
             , //Functions for next and previous buttons in SPSQ-Survey
             nextQuestion: function (e) {
-                var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
-                var pages = document.querySelector('div.' + id.toString() + ' iron-pages');
+                var pages = this.$.spsqPages;
                 questionIndex = pages.selected;
-                if(questionIndex < this.questions.length){
-                    pages.selectNext();
-                }
-                else{
-                    alert("Ende der Umfrage, Mit \"UMFRAGE ABSCHICKEN\" beenden Sie die Umfrage");
-                }
+                pages.selectNext();
+
             }
-            , previousQuestion: function (e) {
-                var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
-                var pages = document.querySelector('div.' + id.toString() + ' iron-pages');
+            , previousQuestion: function (selectedPage) {
+                var pages = this.$.spsqPages;
+                questionIndex = pages.selected;
                 pages.selectPrevious();
             }
 
@@ -365,17 +365,13 @@
                 return question.mode == 'radio'
             }
 
-            
+
             , //does not work in dom-if; proberbly because the dom-if is calculated before other elements of the dom. error sais that ID can not be found. 
-            _isNotEnd: function () {
-                console.log("test");
-                var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
-                var pages = document.querySelector('div.' + id.toString() + ' iron-pages');
-                questionIndex = pages.selected;
-                console.log(questionIndex);
-                console.log(this.questions.length);
-                console.log(questionIndex < this.questions.length);
-                return questionIndex < this.questions.length;
+            _isLast: function (pageIdx, questionsLength) {
+                return pageIdx >= questionsLength;
+            },
+            _isFirst: function (pageIdx, questionsLength) {
+                return pageIdx == 0? true: false;
             }
 
             , //Send function
