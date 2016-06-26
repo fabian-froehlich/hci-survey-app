@@ -331,7 +331,12 @@
                 var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
                 var pages = document.querySelector('div.' + id.toString() + ' iron-pages');
                 questionIndex = pages.selected;
-                pages.selectNext();
+                if(questionIndex < this.questions.length){
+                    pages.selectNext();
+                }
+                else{
+                    alert("Ende der Umfrage, Mit \"UMFRAGE ABSCHICKEN\" beenden Sie die Umfrage");
+                }
             }
             , previousQuestion: function (e) {
                 var id = document.querySelector('iron-pages.surveySelection').selectedItem.id;
