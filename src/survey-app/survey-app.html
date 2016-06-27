@@ -84,13 +84,13 @@
             <!--
             <paper-input required on-input="validateParticipantId" validateImmediately id="participantId" type="number" label="Teilnehmernummer"></paper-input>
 -->
-            <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="startSurvey"></iron-a11y-keys>
-            <paper-input required id="input" value="{{userInput::input}}" label="Teilnehmernummer" char-counter maxlength="4" auto-validate allowed-pattern="[0-9]"></paper-input>
-            <!--
+            <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
+            <paper-input required id="participantId" value="{{userInput::input}}" on-input="validateParticipantId" validateImmediately type="number" label="Teilnehmernummer"></paper-input>
+            
             <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
--->
+
 
         </div>
         <iron-pages class="surveySelection">
@@ -280,7 +280,7 @@
                 , target: {
                     type: Object
                     , value: function () {
-                        return this.$.input;
+                        return this.$.participantId;
                     }
                 }
             , }
@@ -330,18 +330,26 @@
 	        ];
             }
 
-            
+            , onEnter: function(){
+                if(this.validateParticipantId()){
+                    this.startSurvey();
+                }
+            }
             , validateParticipantId: function (e) {
-                var participantId = this.$.input.value;
-                //we give the participants a 4-digit number
-                if (participantId.toString().length === 4) {
+                var participantId = this.$.participantId.value;
+                var min = 1000;
+                var max = 1999;
+                //we give the participants a 4-digit number between max and min
+                if (participantId >= min && participantId <= max && participantId.toString().length === 4) {
                     this.$.bSurveyStart.disabled = false;
+                    return true;
                 } else {
                     this.$.bSurveyStart.disabled = true;
+                    return false;
                 }
             }
             , startSurvey: function (e) {
-                var participantId = this.$.input.value;
+                var participantId = this.$.participantId.value;
                 //choose the survey type
                 var nr = participantId % 4;
                 var survSelec = document.querySelector('iron-pages.surveySelection');
