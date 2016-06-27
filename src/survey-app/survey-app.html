@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <!-- IRON ELEMENTS -->
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <!-- PAPER ELEMENTS -->
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
@@ -78,12 +81,17 @@
         </app-header>
         <div id="fParticipantId" class="card">
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
+            <!--
             <paper-input required on-input="validateParticipantId" validateImmediately id="participantId" type="number" label="Teilnehmernummer"></paper-input>
-            <div class="buttons">
-                <paper-button raised id="bSurveyStart" disabled=true on-tap="startSurvey" class="custom indigo">
-                    Umfrage starten
-                </paper-button>
-            </div>
+-->
+            <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="startSurvey"></iron-a11y-keys>
+            <paper-input required id="input" value="{{userInput::input}}" label="Teilnehmernummer" char-counter maxlength="4" auto-validate allowed-pattern="[0-9]"></paper-input>
+            <!--
+            <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
+                Umfrage starten
+            </paper-button>
+-->
+
         </div>
         <iron-pages class="surveySelection">
             <!--
@@ -99,7 +107,7 @@
                             <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                                 <template is="dom-repeat" items="{{item.answers}}">
                                     <p>
-                                        <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                                        <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
                                     </p>
                                 </template>
                             </template>
@@ -107,7 +115,7 @@
                                 <paper-radio-group>
                                     <br>
                                     <template is="dom-repeat" items="{{item.answers}}">
-                                        <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                                        <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
                                         <br>
                                         <br>
                                     </template>
@@ -127,9 +135,9 @@
                 <paper-dialog-impl>
                     <div class="buttons">
                         <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
-                        <paper-button raised on-tap="previousQuestion" class="custom indigo">
-                            Zurück
-                        </paper-button>
+                            <paper-button raised on-tap="previousQuestion" class="custom indigo">
+                                Zurück
+                            </paper-button>
                         </template>
                         <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
                             <paper-button raised on-tap="nextQuestion" class="custom indigo">
@@ -152,7 +160,7 @@
                             <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                                 <template is="dom-repeat" items="{{item.answers}}">
                                     <p>
-                                        <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                                        <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
                                     </p>
                                 </template>
                             </template>
@@ -160,7 +168,7 @@
                                 <paper-radio-group>
                                     <br>
                                     <template is="dom-repeat" items="{{item.answers}}">
-                                        <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                                        <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
                                         <br>
                                         <br>
                                     </template>
@@ -179,9 +187,9 @@
                 <paper-dialog-impl>
                     <div class="buttons">
                         <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
-                        <paper-button raised on-tap="previousQuestion" class="custom indigo">
-                            Zurück
-                        </paper-button>
+                            <paper-button raised on-tap="previousQuestion" class="custom indigo">
+                                Zurück
+                            </paper-button>
                         </template>
                         <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
                             <paper-button raised on-tap="nextQuestion" class="custom indigo">
@@ -203,7 +211,7 @@
                         <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                             <template is="dom-repeat" items="{{item.answers}}">
                                 <p>
-                                    <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                                    <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
                                 </p>
                             </template>
                         </template>
@@ -211,7 +219,7 @@
                             <paper-radio-group>
                                 <br>
                                 <template is="dom-repeat" items="{{item.answers}}">
-                                    <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
                                     <br>
                                     <br>
                                 </template>
@@ -237,7 +245,7 @@
                         <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                             <template is="dom-repeat" items="{{item.answers}}">
                                 <p>
-                                    <paper-checkbox on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                                    <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
                                 </p>
                             </template>
                         </template>
@@ -245,7 +253,7 @@
                             <paper-radio-group>
                                 <br>
                                 <template is="dom-repeat" items="{{item.answers}}">
-                                    <paper-radio-button name="{{item}}" on-tap="timeStampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
                                     <br>
                                     <br>
                                 </template>
@@ -264,9 +272,25 @@
     <script>
         Polymer({
             is: "survey-app"
+            , properties: {
+                userInput: {
+                    type: String
+                    , notify: true
+                , }
+                , target: {
+                    type: Object
+                    , value: function () {
+                        return this.$.input;
+                    }
+                }
+            , }
             , ready: function () {
                 this.pageIdx = 0;
-                this.data = new Object();
+                this.data = {
+                    "surveyType": ""
+                    , "participantId": ""
+                    , "timestamps": []
+                };
                 this.questions = [
                     {
                         "question": "What do you want for christmas?"
@@ -306,19 +330,18 @@
 	        ];
             }
 
+            
             , validateParticipantId: function (e) {
-                var participantId = document.querySelector('#participantId').value;
-                var max = 1999;
-                var min = 1000;
-                //we give the participants a 4-digit number between max and min
-                if (participantId >= min && participantId <= max && participantId.toString().length === 4) {
-                    document.querySelector('#bSurveyStart').disabled = false;
+                var participantId = this.$.input.value;
+                //we give the participants a 4-digit number
+                if (participantId.toString().length === 4) {
+                    this.$.bSurveyStart.disabled = false;
                 } else {
-                    document.querySelector('#bSurveyStart').disabled = true;
+                    this.$.bSurveyStart.disabled = true;
                 }
             }
             , startSurvey: function (e) {
-                var participantId = document.querySelector('#participantId').value;
+                var participantId = this.$.input.value;
                 //choose the survey type
                 var nr = participantId % 4;
                 var survSelec = document.querySelector('iron-pages.surveySelection');
@@ -345,13 +368,13 @@
             }
 
             , // Handler for receiving timestamps and assigning them into a datastructure
-            timeStampHandler: function (e) {
+            timestampHandler: function (e) {
                 var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
                 var i = args[0];
-                if (this.data[i] instanceof Array === false) {
-                    this.data[i] = new Array();
+                if (this.data["timestamps"][i] instanceof Array === false) {
+                    this.data["timestamps"][i] = new Array();
                 }
-                this.data[i].push({
+                this.data["timestamps"][i].push({
                     answer: args[1]
                     , time: Date.now()
                 });
@@ -364,14 +387,11 @@
             , _isRadioQuestion: function (question) {
                 return question.mode == 'radio'
             }
-
-
-            , //does not work in dom-if; proberbly because the dom-if is calculated before other elements of the dom. error sais that ID can not be found. 
-            _isLast: function (pageIdx, questionsLength) {
+            , _isLast: function (pageIdx, questionsLength) {
                 return pageIdx >= questionsLength;
-            },
-            _isFirst: function (pageIdx, questionsLength) {
-                return pageIdx == 0? true: false;
+            }
+            , _isFirst: function (pageIdx, questionsLength) {
+                return pageIdx == 0 ? true : false;
             }
 
             , //Send function

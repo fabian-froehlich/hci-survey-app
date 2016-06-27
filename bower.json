@@ -12,7 +12,10 @@
     "paper-radio-button": "^1.2.1",
     "paper-radio-group": "^1.2.0",
     "iron-pages": "^1.0.7",
-    "paper-input": "^1.1.13"
+    "paper-input": "^1.1.13",
+    "iron-ajax": "^1.2.0",
+    "iron-a11y-keys": "^1.0.5",
+    "iron-a11y-keys-behavior": "^1.1.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
