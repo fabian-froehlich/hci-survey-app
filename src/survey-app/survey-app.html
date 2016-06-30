@@ -17,7 +17,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-
+<link rel="file" href="./questions.json">
 
 <dom-module id="survey-app">
     <template>
@@ -74,6 +74,10 @@
             }
         </style>
 
+        <!-- load questions as json-->
+        <iron-ajax auto url="./questions.json" last-response="{{questions}}" handle-as="json">
+        </iron-ajax>
+
         <app-header effects="parallax-background">
             <app-toolbar>
                 <div title>HCI-Umfrage App</div>
@@ -81,19 +85,16 @@
         </app-header>
         <div id="fParticipantId" class="card">
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
-            <!--
-            <paper-input required on-input="validateParticipantId" validateImmediately id="participantId" type="number" label="Teilnehmernummer"></paper-input>
--->
             <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
             <paper-input required id="participantId" value="{{userInput::input}}" on-input="validateParticipantId" validateImmediately type="number" label="Teilnehmernummer"></paper-input>
-            
+
             <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
 
 
         </div>
-        <iron-pages class="surveySelection">
+        <iron-pages id="surveySelection">
             <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPSQ-LONG-SHORT STARTING HERE #
@@ -101,7 +102,7 @@
     -->
             <div class="spsq-long-short" id="spsq-long-short">
                 <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
-                    <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
+                    <template is="dom-repeat" items="{{questions.longSurvey}}" index-as="questionNumber">
                         <div class="card">
                             <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                             <template is="dom-if" if="{{_isCheckQuestion(item)}}">
@@ -134,12 +135,12 @@
                 </iron-pages>
                 <paper-dialog-impl>
                     <div class="buttons">
-                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
+                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.longSurvey.length)]]">
                             <paper-button raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
                         </template>
-                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
+                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.longSurvey.length)]]">
                             <paper-button raised on-tap="nextQuestion" class="custom indigo">
                                 Weiter
                             </paper-button>
@@ -154,7 +155,7 @@
     -->
             <div class="spsq-short-long" id="spsq-short-long">
                 <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
-                    <template is="dom-repeat" items="{{questions}}" index-as="questionNumber">
+                    <template is="dom-repeat" items="{{questions.shortSurvey}}" index-as="questionNumber">
                         <div class="card">
                             <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                             <template is="dom-if" if="{{_isCheckQuestion(item)}}">
@@ -186,12 +187,12 @@
                 </iron-pages>
                 <paper-dialog-impl>
                     <div class="buttons">
-                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.length)]]">
+                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.shortSurvey.length)]]">
                             <paper-button raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
                         </template>
-                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.length)]]">
+                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.shortSurvey.length)]]">
                             <paper-button raised on-tap="nextQuestion" class="custom indigo">
                                 Weiter
                             </paper-button>
@@ -205,7 +206,7 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-long-short" id="spmq-long-short">
-                <template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="questionNumber">
+                <template is="dom-repeat" items="{{questions.longSurvey}}" id="survey_form" index-as="questionNumber">
                     <div class="card">
                         <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                         <template is="dom-if" if="{{_isCheckQuestion(item)}}">
@@ -239,7 +240,7 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-short-long" id="spmq-short-long">
-                <template is="dom-repeat" items="{{questions}}" id="survey_form" index-as="questionNumber">
+                <template is="dom-repeat" items="{{questions.shortSurvey}}" id="survey_form" index-as="questionNumber">
                     <div class="card">
                         <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                         <template is="dom-if" if="{{_isCheckQuestion(item)}}">
@@ -257,6 +258,7 @@
                                     <br>
                                     <br>
                                 </template>
+
                             </paper-radio-group>
                         </template>
                     </div>
@@ -289,49 +291,14 @@
                 this.data = {
                     "surveyType": ""
                     , "participantId": ""
-                    , "timestamps": []
+                    , "timestampsStart": []
+                    , "timestampsDecision": []
+                    , "timestampsButtons": []
+                    , "timestampEnd": []
                 };
-                this.questions = [
-                    {
-                        "question": "What do you want for christmas?"
-                        , "mode": "check"
-                        , "answers": ["Nintendo", "iPony", "You", "A tiny little Shotgun"]
-	            }
-
-                    , {
-                        "question": "When mommy says no, who do you ask next?"
-                        , "mode": "radio"
-                        , "answers": ["Daddy", "Dog", "no one"]
-	            }
-
-                    , {
-                        "question": "What do you want for birthday?"
-                        , "mode": "check"
-                        , "answers": ["The", "cake", "is", "a", "lie"]
-	            }
-
-                    , {
-                        "question": "What do you want for namesday?"
-                        , "mode": "check"
-                        , "answers": ["movie-tickets", "peace"]
-	            }
-
-                    , {
-                        "question": "BigMac??"
-                        , "mode": "radio"
-                        , "answers": ["yes", "no"]
-	            }
-
-                    , {
-                        "question": "What is your name?"
-                        , "mode": "radio"
-                        , "answers": ["A girl has no name"]
-	            }
-	        ];
             }
-
-            , onEnter: function(){
-                if(this.validateParticipantId()){
+            , onEnter: function () {
+                if (this.validateParticipantId()) {
                     this.startSurvey();
                 }
             }
@@ -352,14 +319,15 @@
                 var participantId = this.$.participantId.value;
                 //choose the survey type
                 var nr = participantId % 4;
-                var survSelec = document.querySelector('iron-pages.surveySelection');
+                var survSelec = this.$.surveySelection;
                 survSelec.selected = nr;
                 //save survey type and participant id
-                this.data["surveyType"] = survSelec.selectedItem.id;
-                this.data["participantId"] = participantId;
+                this.data.surveyType = survSelec.selectedItem.id;
+                this.data.participantId = participantId;
                 //hide the initial participant form
-                document.querySelector('#fParticipantId').hidden = true;
-
+                this.$.fParticipantId.hidden = true;
+                
+                this.data.timestampsStart = Date.now();
             }
 
             , //Functions for next and previous buttons in SPSQ-Survey
@@ -368,21 +336,37 @@
                 questionIndex = pages.selected;
                 pages.selectNext();
 
+                if (this.data.timestampsButtons[questionIndex] instanceof Array === false) {
+                    this.data.timestampsButtons[questionIndex] = new Array();
+                }
+                this.data.timestampsButtons[questionIndex].push({
+                    "button": "next"
+                    , "time": Date.now()
+                });
+
             }
             , previousQuestion: function (selectedPage) {
                 var pages = this.$.spsqPages;
                 questionIndex = pages.selected;
                 pages.selectPrevious();
+
+                if (this.data.timestampsButtons[questionIndex] instanceof Array === false) {
+                    this.data.timestampsButtons[questionIndex] = new Array();
+                }
+                this.data.timestampsButtons[questionIndex].push({
+                    "button": "previous"
+                    , "time": Date.now()
+                });
             }
 
             , // Handler for receiving timestamps and assigning them into a datastructure
             timestampHandler: function (e) {
                 var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
                 var i = args[0];
-                if (this.data["timestamps"][i] instanceof Array === false) {
-                    this.data["timestamps"][i] = new Array();
+                if (this.data.timestampsDecision[i] instanceof Array === false) {
+                    this.data.timestampsDecision[i] = new Array();
                 }
-                this.data["timestamps"][i].push({
+                this.data.timestampsDecision[i].push({
                     answer: args[1]
                     , time: Date.now()
                 });
@@ -404,6 +388,7 @@
 
             , //Send function
             sendSurvey: function (e) {
+                this.data.timestampEnd = Date.now();
                 console.log(this.data);
             }
 

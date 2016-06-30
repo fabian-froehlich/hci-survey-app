@@ -1,0 +1,112 @@
+{
+   "shortSurvey":[
+      {
+         "question":"Short: What do you want for christmas?",
+         "mode":"check",
+         "answers":[
+            "Nintendo",
+            "iPony",
+            "You",
+            "A tiny little Shotgun"
+         ]
+      },
+      {
+         "question":"Short: When mommy says no, who do you ask next?",
+         "mode":"radio",
+         "answers":[
+            "Daddy",
+            "Dog",
+            "no one"
+         ]
+      },
+      {
+         "question":"Short: What do you want for birthday?",
+         "mode":"check",
+         "answers":[
+            "The",
+            "cake",
+            "is",
+            "a",
+            "lie"
+         ]
+      },
+      {
+         "question":"Short: What do you want for namesday?",
+         "mode":"check",
+         "answers":[
+            "movie-tickets",
+            "peace"
+         ]
+      },
+      {
+         "question":"Short: BigMac??",
+         "mode":"radio",
+         "answers":[
+            "yes",
+            "no"
+         ]
+      },
+      {
+         "question":"Short: What is your name?",
+         "mode":"radio",
+         "answers":[
+            "A girl has no name"
+         ]
+      }
+   ],
+   "longSurvey":[
+      {
+         "question":"LONG: What do you want for christmas?",
+         "mode":"check",
+         "answers":[
+            "Nintendo",
+            "iPony",
+            "You",
+            "A tiny little Shotgun"
+         ]
+      },
+      {
+         "question":"LONG: When mommy says no, who do you ask next?",
+         "mode":"radio",
+         "answers":[
+            "Daddy",
+            "Dog",
+            "no one"
+         ]
+      },
+      {
+         "question":"LONG: What do you want for birthday?",
+         "mode":"check",
+         "answers":[
+            "The",
+            "cake",
+            "is",
+            "a",
+            "lie"
+         ]
+      },
+      {
+         "question":"LONG: What do you want for namesday?",
+         "mode":"check",
+         "answers":[
+            "movie-tickets",
+            "peace"
+         ]
+      },
+      {
+         "question":"LONG: BigMac??",
+         "mode":"radio",
+         "answers":[
+            "yes",
+            "no"
+         ]
+      },
+      {
+         "question":"LONG: What is your name?",
+         "mode":"radio",
+         "answers":[
+            "A girl has no name"
+         ]
+      }
+   ]
+}
