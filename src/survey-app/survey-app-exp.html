@@ -94,6 +94,66 @@
             {{mode}}
         </div>
         <div>
+
+            <!--
+  	# # # # # # # # # # # # # # # # # 
+  	# SPSQ-LONG-SHORT STARTING HERE #
+	# # # # # # # # # # # # # # # # #
+    -->
+            <template id ="isSPSQ" is="dom-if" if="[[_isSPSQ]]">
+                <div>
+                    <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
+                        <template is="dom-repeat" items="{{questions.longSurvey}}" index-as="questionNumber">
+                            <div class="card">
+                                <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
+                                <template is="dom-if" if="{{_isCheckQuestion(item)}}">
+                                    <template is="dom-repeat" items="{{item.answers}}">
+                                        <p>
+                                            <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                                        </p>
+                                    </template>
+                                </template>
+                                <template is="dom-if" if="{{_isRadioQuestion(item)}}">
+                                    <paper-radio-group>
+                                        <br>
+                                        <template is="dom-repeat" items="{{item.answers}}">
+                                            <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                                            <br>
+                                            <br>
+                                        </template>
+                                    </paper-radio-group>
+                                </template>
+                            </div>
+
+                        </template>
+                        <div class="card">
+                            <div class="buttons">
+                                <paper-button raised on-tap="sendSurvey" class="custom indigo">
+                                    Umfrage abschicken
+                                </paper-button>
+                            </div>
+                        </div>
+                    </iron-pages>
+                    <paper-dialog-impl>
+                        <div class="buttons">
+                            <template is="dom-if" if="[[!_isFirst(pageIdx, questions.longSurvey.length)]]">
+                                <paper-button raised on-tap="previousQuestion" class="custom indigo">
+                                    Zurück
+                                </paper-button>
+                            </template>
+                            <template is="dom-if" if="[[!_isLast(pageIdx, questions.longSurvey.length)]]">
+                                <paper-button raised on-tap="nextQuestion" class="custom indigo">
+                                    Weiter
+                                </paper-button>
+                            </template>
+                        </div>
+                    </paper-dialog-impl>
+                </div>
+
+            </template>
+
+
+            <!--
             <template is="dom-if" if="[[_isSPSQ]]">
                 <template is="dom-if" if="[[_isLongFirst]]">
                     SPSQ LongFirst
@@ -111,9 +171,10 @@
             </template>
             <template is="dom-if" if="[[_isSPMQ]]">
                 <template is="dom-if" if="[[_isShortFirst]]">
-                   SPMQ ShortFirst
+                    SPMQ ShortFirst
                 </template>
             </template>
+-->
         </div>
     </template>
     <script>
@@ -193,6 +254,7 @@
             , //Functions for next and previous buttons in SPSQ-Survey
             nextQuestion: function (e) {
                 var pages = this.$.spsqPages;
+                console.log(this.$.isSPSQ.$.spsqPages);
                 questionIndex = pages.selected;
                 pages.selectNext();
 

@@ -86,8 +86,7 @@
         <div id="fParticipantId" class="card">
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
             <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
-            <paper-input required id="participantId" value="{{userInput::input}}" on-input="validateParticipantId" validateImmediately type="number" label="Teilnehmernummer"></paper-input>
-
+            <paper-input required id="participantId" value="{{userInput::value-changed}}" on-input="validateParticipantId" validateImmediately type="Number" label="Teilnehmernummer"></paper-input>
             <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
@@ -276,13 +275,13 @@
             is: "survey-app"
             , properties: {
                 userInput: {
-                    type: String
+                    type: Number
                     , notify: true
                 , }
                 , target: {
                     type: Object
                     , value: function () {
-                        return this.$.participantId;
+                        return this.userInput;
                     }
                 }
             , }
@@ -303,7 +302,7 @@
                 }
             }
             , validateParticipantId: function (e) {
-                var participantId = this.$.participantId.value;
+                var participantId = this.userInput;
                 var min = 1000;
                 var max = 1999;
                 //we give the participants a 4-digit number between max and min
@@ -316,7 +315,7 @@
                 }
             }
             , startSurvey: function (e) {
-                var participantId = this.$.participantId.value;
+                var participantId = this.userInput;
                 //choose the survey type
                 var nr = participantId % 4;
                 var survSelec = this.$.surveySelection;
@@ -326,7 +325,7 @@
                 this.data.participantId = participantId;
                 //hide the initial participant form
                 this.$.fParticipantId.hidden = true;
-                
+
                 this.data.timestampsStart = Date.now();
             }
 
