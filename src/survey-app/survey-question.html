@@ -12,12 +12,24 @@
             :host {
                 display: block;
             }
+            
+            paper-checkbox {
+                --paper-checkbox-size: 30px;
+            }
+            
+            paper-radio-button {
+                --paper-radio-button-size: 30px;
+            }
+            
+            paper-radio-group {
+                --paper-radio-group-item-padding: 0px;
+            }
         </style>
-        <div class="question">Frage {{plusOne(questionNr)}}: {{question}}</div>
+        <div class="question">Frage {{plusOne(question_number)}}: {{question}}</div>
         <template is="dom-if" if="{{_isCheckQuestion}}">
             <template is="dom-repeat" items="{{answers}}">
                 <p>
-                    <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                    <paper-checkbox on-tap="timestampHandler" data-args$="{{question_number}}, {{item}}">{{item}}</paper-checkbox>
                 </p>
             </template>
         </template>
@@ -25,7 +37,7 @@
             <paper-radio-group>
                 <br>
                 <template is="dom-repeat" items="{{answers}}">
-                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{question_number}}, {{item}}">{{item}}</paper-radio-button>
                     <br>
                     <br>
                 </template>
@@ -39,24 +51,28 @@
             is: 'survey-question',
 
             properties: {
-                questionNr: {
+                question_number: {
+                    type: String
+                , }
+                , question: {
+                    type: String
+                , }
+                , qnr: {
                     type: Number
-                },
-                question: {
-                    type: String,
-                },
-                mode: {
-                    type: String,
-                },
-                answers: {
-                    type: Array,
-                },
-                _isCheckQuestion: {
-                    computed: '_computeIsCheckQuestion(mode)',
-                },
-                _isRadioQuestion: {
-                    computed: '_computeIsRadioQuestion(mode)',
-                }
+                , }
+                , mode: {
+                    type: String
+                , }
+                , answers: {
+                    type: Array
+                , }
+                , _isCheckQuestion: {
+                    computed: '_computeIsCheckQuestion(mode)'
+                , }
+                , _isRadioQuestion: {
+                    computed: '_computeIsRadioQuestion(mode)'
+                , }
+                , data: Object
 
             }, //Increment+1 function for starting visual question count with 1
             plusOne: function (index) {
@@ -64,9 +80,20 @@
             }, //Boolean functions for dom-if statements
             _computeIsCheckQuestion: function (mode) {
                 return mode == 'check'
-            },
-            _computeIsRadioQuestion: function (mode) {
+            }
+            , _computeIsRadioQuestion: function (mode) {
                 return mode == 'radio'
+            }, // Handler for receiving timestamps and assigning them into a datastructure
+            timestampHandler: function (e) {
+                var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
+                var i = args[0];
+                if (this.data.timestampsDecision[i] instanceof Array === false) {
+                    this.data.timestampsDecision[i] = new Array();
+                }
+                this.data.timestampsDecision[i].push({
+                    answer: args[1]
+                    , time: Date.now()
+                });
             }
 
         });

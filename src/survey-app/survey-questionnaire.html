@@ -1,3 +1,5 @@
+<link rel="import" href="./survey-question.html">
+
 <dom-module id="survey-questionnaire">
     <template>
         <style>
@@ -14,7 +16,29 @@
             is: 'survey-questionnaire',
 
             properties: {
-            },
+                treatment: {
+                    type: String
+                , }
+                , permutation: {
+                    type: String
+                , }
+                , _isShortFirst: {
+                    computed: '_computeIsShortFirst(permutation)'
+                , }
+                , _isLongFirst: {
+                    computed: '_computeIsLongFirst(permutation)'
+                , }
+                , data: Object
+                , questions: Object
+            }
+
+            
+            , _computeIsLongFirst: function (mode) {
+                return mode == "long_first";
+            }
+            , _computeIsShortFirst: function (mode) {
+                return mode == "short_first";
+            }
         });
     </script>
 </dom-module>
