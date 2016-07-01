@@ -17,7 +17,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-<link rel="file" href="./questions.json">
+<link rel="import" href="./survey-question.html">
 
 <dom-module id="survey-app">
     <template>
@@ -27,16 +27,13 @@
                 --app-primary-color: #4285f4;
                 --app-secondary-color: black;
             }
-            
             app-header {
                 background-color: var(--app-primary-color);
                 color: #fff;
             }
-            
             app-header paper-icon-button {
                 --paper-icon-button-ink-color: white;
             }
-            
             .card {
                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
                 padding: 16px;
@@ -46,19 +43,15 @@
                 color: #757575;
                 height: 50vh;
             }
-            
             paper-checkbox {
                 --paper-checkbox-size: 30px;
             }
-            
             paper-radio-button {
                 --paper-radio-button-size: 30px;
             }
-            
             paper-radio-group {
                 --paper-radio-group-item-padding: 0px;
             }
-            
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -68,7 +61,6 @@
                 }
                 ;
             }
-            
             paper-button.indigo[disabled] {
                 background-color: grey;
             }
@@ -93,6 +85,8 @@
 
 
         </div>
+        <survey-question question="Fragetext" mode="check" questionNumber="1" answers='["Vamos","a","la","playa"]'></survey-question>
+
         <iron-pages id="surveySelection">
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -103,6 +97,8 @@
                 <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
                     <template is="dom-repeat" items="{{questions.longSurvey}}" index-as="questionNumber">
                         <div class="card">
+                            <survey-question question="{{item.question}}" mode="{{item.mode}}" questionNumber="{{questionNumber}}" answers="{{item.answers}}"></survey-question>
+
                             <div class="question">Frage {{plusOne(questionNumber)}}: {{item.question}}</div>
                             <template is="dom-if" if="{{_isCheckQuestion(item)}}">
                                 <template is="dom-repeat" items="{{item.answers}}">
@@ -272,36 +268,36 @@
     </template>
     <script>
         Polymer({
-            is: "survey-app"
-            , properties: {
+            is: "survey-app",
+            properties: {
                 userInput: {
-                    type: Number
-                    , notify: true
-                , }
-                , target: {
-                    type: Object
-                    , value: function () {
+                    type: Number,
+                    notify: true,
+                },
+                target: {
+                    type: Object,
+                    value: function () {
                         return this.userInput;
                     }
-                }
-            , }
-            , ready: function () {
+                },
+            },
+            ready: function () {
                 this.pageIdx = 0;
                 this.data = {
-                    "surveyType": ""
-                    , "participantId": ""
-                    , "timestampsStart": []
-                    , "timestampsDecision": []
-                    , "timestampsButtons": []
-                    , "timestampEnd": []
+                    "surveyType": "",
+                    "participantId": "",
+                    "timestampsStart": [],
+                    "timestampsDecision": [],
+                    "timestampsButtons": [],
+                    "timestampEnd": []
                 };
-            }
-            , onEnter: function () {
+            },
+            onEnter: function () {
                 if (this.validateParticipantId()) {
                     this.startSurvey();
                 }
-            }
-            , validateParticipantId: function (e) {
+            },
+            validateParticipantId: function (e) {
                 var participantId = this.userInput;
                 var min = 1000;
                 var max = 1999;
@@ -313,8 +309,8 @@
                     this.$.bSurveyStart.disabled = true;
                     return false;
                 }
-            }
-            , startSurvey: function (e) {
+            },
+            startSurvey: function (e) {
                 var participantId = this.userInput;
                 //choose the survey type
                 var nr = participantId % 4;
@@ -339,12 +335,12 @@
                     this.data.timestampsButtons[questionIndex] = new Array();
                 }
                 this.data.timestampsButtons[questionIndex].push({
-                    "button": "next"
-                    , "time": Date.now()
+                    "button": "next",
+                    "time": Date.now()
                 });
 
-            }
-            , previousQuestion: function (selectedPage) {
+            },
+            previousQuestion: function (selectedPage) {
                 var pages = this.$.spsqPages;
                 questionIndex = pages.selected;
                 pages.selectPrevious();
@@ -353,8 +349,8 @@
                     this.data.timestampsButtons[questionIndex] = new Array();
                 }
                 this.data.timestampsButtons[questionIndex].push({
-                    "button": "previous"
-                    , "time": Date.now()
+                    "button": "previous",
+                    "time": Date.now()
                 });
             }
 
@@ -366,22 +362,22 @@
                     this.data.timestampsDecision[i] = new Array();
                 }
                 this.data.timestampsDecision[i].push({
-                    answer: args[1]
-                    , time: Date.now()
+                    answer: args[1],
+                    time: Date.now()
                 });
             }
 
             , //Boolean functions for dom-if statements
             _isCheckQuestion: function (question) {
                 return question.mode == 'check'
-            }
-            , _isRadioQuestion: function (question) {
+            },
+            _isRadioQuestion: function (question) {
                 return question.mode == 'radio'
-            }
-            , _isLast: function (pageIdx, questionsLength) {
+            },
+            _isLast: function (pageIdx, questionsLength) {
                 return pageIdx >= questionsLength;
-            }
-            , _isFirst: function (pageIdx, questionsLength) {
+            },
+            _isFirst: function (pageIdx, questionsLength) {
                 return pageIdx == 0 ? true : false;
             }
 

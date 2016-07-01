@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- PAPER ELEMENTS -->
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-behaviors/paper-checked-element-behavior.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+
+<dom-module id="survey-question">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <div class="question">Frage {{plusOne(questionNr)}}: {{question}}</div>
+        <template is="dom-if" if="{{_isCheckQuestion}}">
+            <template is="dom-repeat" items="{{answers}}">
+                <p>
+                    <paper-checkbox on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-checkbox>
+                </p>
+            </template>
+        </template>
+        <template is="dom-if" if="{{_isRadioQuestion}}">
+            <paper-radio-group>
+                <br>
+                <template is="dom-repeat" items="{{answers}}">
+                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{questionNumber}}, {{item}}">{{item}}</paper-radio-button>
+                    <br>
+                    <br>
+                </template>
+            </paper-radio-group>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'survey-question',
+
+            properties: {
+                questionNr: {
+                    type: Number
+                },
+                question: {
+                    type: String,
+                },
+                mode: {
+                    type: String,
+                },
+                answers: {
+                    type: Array,
+                },
+                _isCheckQuestion: {
+                    computed: '_computeIsCheckQuestion(mode)',
+                },
+                _isRadioQuestion: {
+                    computed: '_computeIsRadioQuestion(mode)',
+                }
+
+            }, //Increment+1 function for starting visual question count with 1
+            plusOne: function (index) {
+                return index + 1;
+            }, //Boolean functions for dom-if statements
+            _computeIsCheckQuestion: function (mode) {
+                return mode == 'check'
+            },
+            _computeIsRadioQuestion: function (mode) {
+                return mode == 'radio'
+            }
+
+        });
+    </script>
+</dom-module>
