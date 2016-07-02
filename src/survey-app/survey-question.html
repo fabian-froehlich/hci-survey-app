@@ -25,11 +25,12 @@
                 --paper-radio-group-item-padding: 0px;
             }
         </style>
-        <div class="question">Frage {{plusOne(question_number)}}: {{question}}</div>
+        [[surveytype]]
+        <div class="question">Frage {{plusOne(question-number)}}: {{question}}</div>
         <template is="dom-if" if="{{_isCheckQuestion}}">
             <template is="dom-repeat" items="{{answers}}">
                 <p>
-                    <paper-checkbox on-tap="timestampHandler" data-args$="{{question_number}}, {{item}}">{{item}}</paper-checkbox>
+                    <paper-checkbox on-tap="timestampHandler" data-args$="{{question-number}}, {{item}}">{{item}}</paper-checkbox>
                 </p>
             </template>
         </template>
@@ -37,7 +38,7 @@
             <paper-radio-group>
                 <br>
                 <template is="dom-repeat" items="{{answers}}">
-                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{question_number}}, {{item}}">{{item}}</paper-radio-button>
+                    <paper-radio-button name="{{item}}" on-tap="timestampHandler" data-args$="{{question-number}}, {{item}}">{{item}}</paper-radio-button>
                     <br>
                     <br>
                 </template>
@@ -51,7 +52,7 @@
             is: 'survey-question',
 
             properties: {
-                question_number: {
+                'question-number': {
                     type: String
                 , }
                 , question: {
@@ -66,13 +67,14 @@
                 , answers: {
                     type: Array
                 , }
+                , data: Object
                 , _isCheckQuestion: {
                     computed: '_computeIsCheckQuestion(mode)'
                 , }
                 , _isRadioQuestion: {
                     computed: '_computeIsRadioQuestion(mode)'
                 , }
-                , data: Object
+
 
             }, //Increment+1 function for starting visual question count with 1
             plusOne: function (index) {
@@ -95,7 +97,6 @@
                     , time: Date.now()
                 });
             }
-
         });
     </script>
 </dom-module>

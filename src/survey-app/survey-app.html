@@ -18,7 +18,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="./survey-question.html">
-<link rel="import" href="./survey-questionnaire.html">
+<link rel="import" href="./survey-questionnaire-sq.html">
 
 <dom-module id="survey-app">
     <template>
@@ -45,7 +45,7 @@
                 border-radius: 5px;
                 background-color: #fff;
                 color: #757575;
-                height: 50vh;
+                height: 30vh;
             }
             
             paper-checkbox {
@@ -84,6 +84,7 @@
                 <div title>HCI-Umfrage App</div>
             </app-toolbar>
         </app-header>
+
         <div id="fParticipantId" class="card">
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
             <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
@@ -91,10 +92,7 @@
             <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
-
-
         </div>
-        <!--<survey-question question="Fragetext" question_number="2" mode="check" answers='["Vamos","a","la","playa"]'></survey-question>-->
 
         <iron-pages id="surveySelection">
             <!--
@@ -103,69 +101,20 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-long-short" id="spsq-long-short">
-                <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
-                    <template is="dom-repeat" items="{{questions.longSurvey}}" index-as="questionNumber">
-                        <div class="card">
-                            <survey-question question_number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
-                        </div>
-                    </template>
-                    <div class="card">
-                        <div class="buttons">
-                            <paper-button raised on-tap="sendSurvey" class="custom indigo">
-                                Umfrage abschicken
-                            </paper-button>
-                        </div>
-                    </div>
-                </iron-pages>
-                <paper-dialog-impl>
-                    <div class="buttons">
-                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.longSurvey.length)]]">
-                            <paper-button raised on-tap="previousQuestion" class="custom indigo">
-                                Zurück
-                            </paper-button>
-                        </template>
-                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.longSurvey.length)]]">
-                            <paper-button raised on-tap="nextQuestion" class="custom indigo">
-                                Weiter
-                            </paper-button>
-                        </template>
-                    </div>
-                </paper-dialog-impl>
+                <survey-questionnaire-sq id="first" treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
+                <survey-questionnaire-sq id="second" hidden treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
             </div>
+
             <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPSQ-SHORT-LONG STARTING HERE #
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-short-long" id="spsq-short-long">
-                <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
-                    <template is="dom-repeat" items="{{questions.shortSurvey}}" index-as="questionNumber">
-                        <div class="card">
-                            <survey-question question_number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
-                        </div>
-                    </template>
-                    <div class="card">
-                        <div class="buttons">
-                            <paper-button raised on-tap="sendSurvey" class="custom indigo">
-                                Umfrage abschicken
-                            </paper-button>
-                        </div>
-                    </div>
-                </iron-pages>
-                <paper-dialog-impl>
-                    <div class="buttons">
-                        <template is="dom-if" if="[[!_isFirst(pageIdx, questions.shortSurvey.length)]]">
-                            <paper-button raised on-tap="previousQuestion" class="custom indigo">
-                                Zurück
-                            </paper-button>
-                        </template>
-                        <template is="dom-if" if="[[!_isLast(pageIdx, questions.shortSurvey.length)]]">
-                            <paper-button raised on-tap="nextQuestion" class="custom indigo">
-                                Weiter
-                            </paper-button>
-                        </template>
-                    </div>
-                </paper-dialog-impl>
+                <div class="spsq-long-short" id="spsq-long-short">
+                    <survey-questionnaire-sq treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
+                    <survey-questionnaire-sq treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
+                </div>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -175,7 +124,7 @@
             <div class="spmq-long-short" id="spmq-long-short">
                 <template is="dom-repeat" items="{{questions.longSurvey}}" id="survey_form" index-as="questionNumber">
                     <div class="card">
-                        <survey-question question_number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
+                        <survey-question question-number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
                     </div>
                 </template>
                 <div class="buttons">
@@ -192,7 +141,7 @@
             <div class="spmq-short-long" id="spmq-short-long">
                 <template is="dom-repeat" items="{{questions.shortSurvey}}" id="survey_form" index-as="questionNumber">
                     <div class="card">
-                        <survey-question question_number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
+                        <survey-question question-number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
                     </div>
                 </template>
                 <div class="buttons">
@@ -217,17 +166,41 @@
                         return this.userInput;
                     }
                 }
+                , data: {
+                    type: Object
+                    , value: function () {
+                        return {
+                            "treatment": ""
+                            , "variant": ""
+                            , "participantId": ""
+                            , "shortSurvey": {
+                                "timestampsStart": ""
+                                , "timestampsDecision": []
+                                , "timestampsNavigation": []
+                                , "timestampEnd": ""
+                            }
+                            , "longSurvey": {
+                                "timestampsStart": ""
+                                , "timestampsDecision": []
+                                , "timestampsNavigation": []
+                                , "timestampEnd": ""
+                            }
+                        };
+                    }
+                }
+                , questions: Object
             , }
             , ready: function () {
                 this.pageIdx = 0;
-                this.data = {
-                    "surveyType": ""
-                    , "participantId": ""
-                    , "timestampsStart": []
-                    , "timestampsDecision": []
-                    , "timestampsNavigation": []
-                    , "timestampEnd": []
-                };
+            }
+            , listeners: {
+                'finish-subsurvey': 'showNextSurvey'
+            }
+
+            
+            , showNextSurvey: function () {
+                this.$.first.hidden=true;
+                this.$.second.hidden=false;
             }
             , onEnter: function () {
                 if (this.validateParticipantId()) {
