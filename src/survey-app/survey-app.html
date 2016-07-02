@@ -18,7 +18,9 @@
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="./survey-question.html">
+<link rel="import" href="./survey-questionnaire.html">
 <link rel="import" href="./survey-questionnaire-sq.html">
+<link rel="import" href="./survey-questionnaire-mq.html">
 
 <dom-module id="survey-app">
     <template>
@@ -101,8 +103,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-long-short" id="spsq-long-short">
-                <survey-questionnaire-sq id="first" treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
-                <survey-questionnaire-sq id="second" hidden treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
+                <survey-questionnaire class="first-survey" treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
             </div>
 
             <!--
@@ -111,10 +113,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-short-long" id="spsq-short-long">
-                <div class="spsq-long-short" id="spsq-long-short">
-                    <survey-questionnaire-sq treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
-                    <survey-questionnaire-sq treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire-sq>
-                </div>
+                <survey-questionnaire class="first-survey" treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -122,16 +122,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-long-short" id="spmq-long-short">
-                <template is="dom-repeat" items="{{questions.longSurvey}}" id="survey_form" index-as="questionNumber">
-                    <div class="card">
-                        <survey-question question-number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
-                    </div>
-                </template>
-                <div class="buttons">
-                    <paper-button raised on-tap="sendSurvey" class="custom indigo">
-                        Umfrage abschicken
-                    </paper-button>
-                </div>
+                <survey-questionnaire class="first-survey" treatment="mq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -139,16 +131,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-short-long" id="spmq-short-long">
-                <template is="dom-repeat" items="{{questions.shortSurvey}}" id="survey_form" index-as="questionNumber">
-                    <div class="card">
-                        <survey-question question-number="{{questionNumber}}" question="{{item.question}}" mode="{{item.mode}}" answers="{{item.answers}}" data="{{data}}"></survey-question>
-                    </div>
-                </template>
-                <div class="buttons">
-                    <paper-button raised on-tap="sendSurvey" class="custom indigo">
-                        Umfrage abschicken
-                    </paper-button>
-                </div>
+                <survey-questionnaire class="first-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" treatment="mq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
             </div>
         </iron-pages>
     </template>
@@ -174,13 +158,13 @@
                             , "variant": ""
                             , "participantId": ""
                             , "shortSurvey": {
-                                "timestampsStart": ""
+                                "timestampStart": ""
                                 , "timestampsDecision": []
                                 , "timestampsNavigation": []
                                 , "timestampEnd": ""
                             }
                             , "longSurvey": {
-                                "timestampsStart": ""
+                                "timestampStart": ""
                                 , "timestampsDecision": []
                                 , "timestampsNavigation": []
                                 , "timestampEnd": ""
@@ -196,11 +180,18 @@
             , listeners: {
                 'finish-subsurvey': 'showNextSurvey'
             }
-
-            
             , showNextSurvey: function () {
-                this.$.first.hidden=true;
-                this.$.second.hidden=false;
+                if (document.querySelector('.first-survey').hidden == true && document.querySelector('.second-survey').hidden == false) {
+                    this.sendSurvey();
+                }
+
+                document.querySelectorAll('.first-survey').forEach(function (item, index) {
+                    item.hidden = true;
+                });
+                document.querySelectorAll('.second-survey').forEach(function (item, index) {
+                    item.hidden = false;
+                });
+
             }
             , onEnter: function () {
                 if (this.validateParticipantId()) {
@@ -231,7 +222,6 @@
                 this.data.participantId = participantId;
                 //hide the initial participant form
                 this.$.fParticipantId.hidden = true;
-
                 this.data.timestampsStart = Date.now();
             }
 
@@ -293,7 +283,7 @@
 
             , //Send function
             sendSurvey: function (e) {
-                this.data.timestampEnd = Date.now();
+                console.log('both surveys completed');
                 console.log(this.data);
             }
 

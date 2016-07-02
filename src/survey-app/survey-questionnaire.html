@@ -19,7 +19,7 @@
 
 <link rel="import" href="./survey-question.html">
 
-<dom-module id="survey-questionnaire-sq">
+<dom-module id="survey-questionnaire">
     <template>
         <style>
             :host {
@@ -58,41 +58,55 @@
                     Starten
                 </paper-button>
             </div>
-            <iron-pages id="spsqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
-                <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
+            <div id="sqTreatment" hidden>
+                <iron-pages id="sqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
+                    <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
+                        <div class="card">
+                            <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
+                        </div>
+                    </template>
+                    <div class="card">
+                        <div class="buttons">
+                            <paper-button raised on-tap="endSurvey" class="custom indigo">
+                                Umfrage abschließen
+                            </paper-button>
+                        </div>
+                    </div>
+                </iron-pages>
+                <paper-dialog-impl>
+                    <div class="buttons">
+                        <template is="dom-if" if="[[!_isFirstQuestion]]">
+                            <paper-button id="next" raised on-tap="previousQuestion" class="custom indigo">
+                                Zurück
+                            </paper-button>
+                        </template>
+                        <template is="dom-if" if="[[!_isLastQuestion]]">
+                            <paper-button id="previous" raised on-tap="nextQuestion" class="custom indigo">
+                                Weiter
+                            </paper-button>
+                        </template>
+                    </div>
+                </paper-dialog-impl>
+            </div>
+            <div id="mqTreatment" hidden>
+                <template is="dom-repeat" items="[[actualQuestions]]" id="survey_form" index-as="questionNumber">
                     <div class="card">
                         <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
                     </div>
                 </template>
-                <div class="card">
-                    <div class="buttons">
-                        <paper-button raised on-tap="endSurvey" class="custom indigo">
-                            Umfrage abschließen
-                        </paper-button>
-                    </div>
-                </div>
-            </iron-pages>
-            <paper-dialog-impl>
                 <div class="buttons">
-                    <template is="dom-if" if="[[!_isFirstQuestion]]">
-                        <paper-button id="next" raised on-tap="previousQuestion" class="custom indigo">
-                            Zurück
-                        </paper-button>
-                    </template>
-                    <template is="dom-if" if="[[!_isLastQuestion]]">
-                        <paper-button id="previous" raised on-tap="nextQuestion" class="custom indigo">
-                            Weiter
-                        </paper-button>
-                    </template>
+                    <paper-button raised on-tap="endSurvey" class="custom indigo">
+                        Umfrage abschließen
+                    </paper-button>
                 </div>
-            </paper-dialog-impl>
+            </div>
         </div>
     </template>
 
     <script>
         Polymer({
 
-            is: 'survey-questionnaire-sq',
+            is: 'survey-questionnaire',
 
             properties: {
                 treatment: {
@@ -140,20 +154,27 @@
                 return pageIdx >= questionsLength;
             }, //Functions for next and previous buttons in SPSQ-Survey
             nextQuestion: function (e) {
-                var pages = this.$.spsqPages;
+                var pages = this.$.sqPages;
                 questionIndex = pages.selected;
                 pages.selectNext();
 
             }
             , previousQuestion: function (selectedPage) {
-                var pages = this.$.spsqPages;
+                var pages = this.$.sqPages;
                 questionIndex = pages.selected;
                 pages.selectPrevious();
 
             }
             , startSurvey: function () {
                 this.$.surveyDescription.hidden = true;
-                this.pageIdx = 0;
+                if (this.treatment == 'sq') {
+                    this.$.sqTreatment.hidden = false;
+                    this.pageIdx = 0;
+                }
+                if (this.treatment == 'mq') {
+                    this.$.mqTreatment.hidden = false;
+                }
+
                 this.actualData.timestampStart = Date.now();
                 this.data.treatment = this.treatment;
                 this.data.variant = this.data.variant + this.variant;
