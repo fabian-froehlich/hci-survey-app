@@ -19,8 +19,6 @@
 
 <link rel="import" href="./survey-question.html">
 <link rel="import" href="./survey-questionnaire.html">
-<link rel="import" href="./survey-questionnaire-sq.html">
-<link rel="import" href="./survey-questionnaire-mq.html">
 
 <dom-module id="survey-app">
     <template>
@@ -49,19 +47,7 @@
                 color: #757575;
                 height: 30vh;
             }
-            
-            paper-checkbox {
-                --paper-checkbox-size: 30px;
-            }
-            
-            paper-radio-button {
-                --paper-radio-button-size: 30px;
-            }
-            
-            paper-radio-group {
-                --paper-radio-group-item-padding: 0px;
-            }
-            
+
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -91,7 +77,7 @@
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
             <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
             <paper-input required id="participantId" value="{{userInput}}" on-input="validateParticipantId" validateImmediately type="Number" label="Teilnehmernummer"></paper-input>
-            <paper-button raised id="bSurveyStart" disabled on-tap="startSurvey" class="custom indigo">
+            <paper-button raised id="bSurveyStart" disabled on-tap="beginSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
         </div>
@@ -103,8 +89,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-long-short" id="spsq-long-short">
-                <survey-questionnaire class="first-survey" treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="first-survey" treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
 
             <!--
@@ -113,8 +99,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spsq-short-long" id="spsq-short-long">
-                <survey-questionnaire class="first-survey" treatment="sq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="first-survey" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -122,8 +108,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-long-short" id="spmq-long-short">
-                <survey-questionnaire class="first-survey" treatment="mq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="first-survey" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
@@ -131,8 +117,8 @@
 	# # # # # # # # # # # # # # # # #
     -->
             <div class="spmq-short-long" id="spmq-short-long">
-                <survey-questionnaire class="first-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" treatment="mq" variant="long" data="{{data}}" questions="{{questions}}"></survey-questionnaire>
+                <survey-questionnaire class="first-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire class="second-survey" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
         </iron-pages>
     </template>
@@ -195,7 +181,7 @@
             }
             , onEnter: function () {
                 if (this.validateParticipantId()) {
-                    this.startSurvey();
+                    this.beginSurvey();
                 }
             }
             , validateParticipantId: function (e) {
@@ -211,7 +197,7 @@
                     return false;
                 }
             }
-            , startSurvey: function (e) {
+            , beginSurvey: function (e) {
                 var participantId = this.userInput;
                 //choose the survey type
                 var nr = participantId % 4;
@@ -222,74 +208,13 @@
                 this.data.participantId = participantId;
                 //hide the initial participant form
                 this.$.fParticipantId.hidden = true;
-                this.data.timestampsStart = Date.now();
             }
 
-            , //Functions for next and previous buttons in SPSQ-Survey
-            nextQuestion: function (e) {
-                var pages = this.$.spsqPages;
-                questionIndex = pages.selected;
-                pages.selectNext();
-
-                if (this.data.timestampsNavigation[questionIndex] instanceof Array === false) {
-                    this.data.timestampsNavigation[questionIndex] = new Array();
-                }
-                this.data.timestampsNavigation[questionIndex].push({
-                    "button": "next"
-                    , "time": Date.now()
-                });
-
-            }
-            , previousQuestion: function (selectedPage) {
-                var pages = this.$.spsqPages;
-                questionIndex = pages.selected;
-                pages.selectPrevious();
-
-                if (this.data.timestampsNavigation[questionIndex] instanceof Array === false) {
-                    this.data.timestampsNavigation[questionIndex] = new Array();
-                }
-                this.data.timestampsNavigation[questionIndex].push({
-                    "button": "previous"
-                    , "time": Date.now()
-                });
-            }
-
-            , // Handler for receiving timestamps and assigning them into a datastructure
-            timestampHandler: function (e) {
-                var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
-                var i = args[0];
-                if (this.data.timestampsDecision[i] instanceof Array === false) {
-                    this.data.timestampsDecision[i] = new Array();
-                }
-                this.data.timestampsDecision[i].push({
-                    answer: args[1]
-                    , time: Date.now()
-                });
-            }
-
-            , //Boolean functions for dom-if statements
-            _isCheckQuestion: function (question) {
-                return question.mode == 'check'
-            }
-            , _isRadioQuestion: function (question) {
-                return question.mode == 'radio'
-            }
-            , _isLast: function (pageIdx, questionsLength) {
-                return pageIdx >= questionsLength;
-            }
-            , _isFirst: function (pageIdx, questionsLength) {
-                return pageIdx == 0 ? true : false;
-            }
 
             , //Send function
             sendSurvey: function (e) {
                 console.log('both surveys completed');
                 console.log(this.data);
-            }
-
-            , //Increment+1 function for starting visual question count with 1
-            plusOne: function (index) {
-                return index + 1;
             }
         });
     </script>

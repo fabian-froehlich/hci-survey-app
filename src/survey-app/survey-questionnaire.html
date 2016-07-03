@@ -58,11 +58,21 @@
                     Starten
                 </paper-button>
             </div>
+
+            <!-- single question per side treatment -->
             <div id="sqTreatment" hidden>
-                <iron-pages id="sqPages" selected="{{pageIdx}}" selected-item="{{selectedPage}}">
+                <iron-pages id="sqPages" selected="{{pageIdx}}">
                     <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
                         <div class="card">
                             <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
+                            <div id="navigationButtons">
+                                <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
+                                    Zurück
+                                </paper-button>
+                                <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo">
+                                    Weiter
+                                </paper-button>
+                            </div>
                         </div>
                     </template>
                     <div class="card">
@@ -71,23 +81,22 @@
                                 Umfrage abschließen
                             </paper-button>
                         </div>
-                    </div>
-                </iron-pages>
-                <paper-dialog-impl>
-                    <div class="buttons">
-                        <template is="dom-if" if="[[!_isFirstQuestion]]">
-                            <paper-button id="next" raised on-tap="previousQuestion" class="custom indigo">
+                        <div id="navigationButtons">
+                            <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
-                        </template>
-                        <template is="dom-if" if="[[!_isLastQuestion]]">
-                            <paper-button id="previous" raised on-tap="nextQuestion" class="custom indigo">
+                            <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo">
                                 Weiter
                             </paper-button>
-                        </template>
+                        </div>
                     </div>
-                </paper-dialog-impl>
+                </iron-pages>
+                <!--<paper-dialog-impl>-->
+
+                <!--</paper-dialog-impl>-->
             </div>
+
+            <!-- multiple question per side treatment -->
             <div id="mqTreatment" hidden>
                 <template is="dom-repeat" items="[[actualQuestions]]" id="survey_form" index-as="questionNumber">
                     <div class="card">
@@ -155,14 +164,27 @@
             }, //Functions for next and previous buttons in SPSQ-Survey
             nextQuestion: function (e) {
                 var pages = this.$.sqPages;
-                questionIndex = pages.selected;
+                var qIdx = pages.selected;
                 pages.selectNext();
-
+                if (this.actualData.timestampsNavigation[qIdx] instanceof Array === false) {
+                    this.actualData.timestampsNavigation[qIdx] = new Array();
+                }
+                this.actualData.timestampsNavigation[qIdx].push({
+                    "button": "next"
+                    , "time": Date.now()
+                });
             }
-            , previousQuestion: function (selectedPage) {
+            , previousQuestion: function (e) {
                 var pages = this.$.sqPages;
-                questionIndex = pages.selected;
+                var qIdx = pages.selected;
                 pages.selectPrevious();
+                if (this.actualData.timestampsNavigation[qIdx] instanceof Array === false) {
+                    this.actualData.timestampsNavigation[qIdx] = new Array();
+                }
+                this.actualData.timestampsNavigation[qIdx].push({
+                    "button": "previous"
+                    , "time": Date.now()
+                });
 
             }
             , startSurvey: function () {

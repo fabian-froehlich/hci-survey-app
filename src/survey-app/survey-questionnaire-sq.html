@@ -75,12 +75,12 @@
             <paper-dialog-impl>
                 <div class="buttons">
                     <template is="dom-if" if="[[!_isFirstQuestion]]">
-                        <paper-button id="next" raised on-tap="previousQuestion" class="custom indigo">
+                        <paper-button raised on-tap="previousQuestion" class="custom indigo">
                             Zurück
                         </paper-button>
                     </template>
                     <template is="dom-if" if="[[!_isLastQuestion]]">
-                        <paper-button id="previous" raised on-tap="nextQuestion" class="custom indigo">
+                        <paper-button raised on-tap="nextQuestion" class="custom indigo">
                             Weiter
                         </paper-button>
                     </template>
