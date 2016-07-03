@@ -45,6 +45,8 @@
                     color: white !important;
                 }
                 ;
+                margin-bottom: 40px;
+                margin-top: 40px;
             }
             
             paper-button.indigo[disabled] {
@@ -52,16 +54,16 @@
             }
         </style>
         <div id="[[treatment]]-[[variant]]">
-            <div id="surveyDescription" class="card">
-                <div class="description"> [[actualDescription]]</div>
-                <paper-button raised on-tap="startSurvey" class="custom indigo">
-                    Starten
-                </paper-button>
-            </div>
+            <iron-pages selected="{{selector}}">
+                <div id="surveyDescription" class="card">
+                    <div class="description"> [[actualDescription]]</div>
+                    <paper-button raised on-tap="startSurvey" class="custom indigo">
+                        Starten
+                    </paper-button>
+                </div>
 
-            <!-- single question per side treatment -->
-            <div id="sqTreatment" hidden>
-                <iron-pages id="sqPages" selected="{{pageIdx}}">
+                <!-- single question per side treatment -->
+                <iron-pages id="sqPages" selected="{{sqPagesSelector}}">
                     <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
                         <div class="card">
                             <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
@@ -91,24 +93,22 @@
                         </div>
                     </div>
                 </iron-pages>
-                <!--<paper-dialog-impl>-->
 
-                <!--</paper-dialog-impl>-->
-            </div>
 
-            <!-- multiple question per side treatment -->
-            <div id="mqTreatment" hidden>
-                <template is="dom-repeat" items="[[actualQuestions]]" id="survey_form" index-as="questionNumber">
-                    <div class="card">
-                        <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
+                <!-- multiple question per side treatment -->
+                <div>
+                    <template is="dom-repeat" items="[[actualQuestions]]" id="survey_form" index-as="questionNumber">
+                        <div class="card">
+                            <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
+                        </div>
+                    </template>
+                    <div class="buttons">
+                        <paper-button raised on-tap="endSurvey" class="custom indigo">
+                            Umfrage abschließen
+                        </paper-button>
                     </div>
-                </template>
-                <div class="buttons">
-                    <paper-button raised on-tap="endSurvey" class="custom indigo">
-                        Umfrage abschließen
-                    </paper-button>
                 </div>
-            </div>
+            </iron-pages>
         </div>
     </template>
 
@@ -126,14 +126,36 @@
                 }
                 , data: Object
                 , questions: {
-                    tyoe: Object
+                    type: Object
                     , observer: '_onQuestionsChanged'
                 }
                 , _isFirstQuestion: {
-                    computed: '_computeIsFirstQuestion(pageIdx, questions.longSurvey.length)'
+                    computed: '_computeIsFirstQuestion(sqPagesSelector)'
                 }
                 , _isLastQuestion: {
-                    computed: '_computeIsLastQuestion(pageIdx, questions.longSurvey.length)'
+                    computed: '_computeIsLastQuestion(sqPagesSelector, questions.longSurvey.length)'
+                }
+                , _isSQ: {
+                    type: Boolean
+                    , value: false
+                    , computed: '_computeIsSQ(treatment)'
+                }
+                , _isMQ: {
+                    type: Boolean
+                    , value: false
+                    , computed: '_computeIsMQ(treatment)'
+                }
+                , _isDescription: {
+                    type: Boolean
+                    , value: true
+                }
+                , selector: {
+                    type: Number
+                    , value: 0
+                }
+                ,sqPagesSelector:{
+                    type: Number
+                    ,value: 0
                 }
             }
             , ready: function () {
@@ -156,11 +178,18 @@
                     this.actualDescription = this.questions.longDescription;
                 }
             }
-            , _computeIsFirstQuestion: function (pageIdx, questionsLength) {
+            , _computeIsFirstQuestion: function (pageIdx) {
                 return pageIdx == 0 ? true : false;
             }
             , _computeIsLastQuestion: function (pageIdx, questionsLength) {
                 return pageIdx >= questionsLength;
+            }
+
+            , _computeIsSQ: function (treatment) {
+                return treatment == 'sq';
+            }
+            , _computeIsMQ: function (treatment) {
+                return treatment == 'mq';
             }, //Functions for next and previous buttons in SPSQ-Survey
             nextQuestion: function (e) {
                 var pages = this.$.sqPages;
@@ -188,15 +217,16 @@
 
             }
             , startSurvey: function () {
-                this.$.surveyDescription.hidden = true;
-                if (this.treatment == 'sq') {
-                    this.$.sqTreatment.hidden = false;
-                    this.pageIdx = 0;
-                }
-                if (this.treatment == 'mq') {
-                    this.$.mqTreatment.hidden = false;
-                }
 
+                this.$.surveyDescription.hidden = true;
+                if (this._isSQ) {
+                    this.selector = 1;
+
+                }
+                if (this._isMQ) {
+                    this.selector = 2;
+                }
+                this._isDescription = false;
                 this.actualData.timestampStart = Date.now();
                 this.data.treatment = this.treatment;
                 this.data.variant = this.data.variant + this.variant;
@@ -205,7 +235,7 @@
                 this.actualData.timestampEnd = Date.now();
                 console.log("finished subsurvey");
                 console.log(this.data)
-                this.fire('finish-subsurvey');
+                this.fire('finishSubSurvey');
             }
         });
     </script>

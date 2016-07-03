@@ -47,7 +47,7 @@
                 color: #757575;
                 height: 30vh;
             }
-
+            
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -73,11 +73,12 @@
             </app-toolbar>
         </app-header>
 
-        <div id="fParticipantId" class="card">
+
+        <div class="card" hidden="[[_isSignedIn]]">
             <div class="question">Bitte tragen Sie Ihre Teilnehmernummer ein:</div>
-            <iron-a11y-keys id="a11y" target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
-            <paper-input required id="participantId" value="{{userInput}}" on-input="validateParticipantId" validateImmediately type="Number" label="Teilnehmernummer"></paper-input>
-            <paper-button raised id="bSurveyStart" disabled on-tap="beginSurvey" class="custom indigo">
+            <iron-a11y-keys target="[[target]]" keys="enter" on-keys-pressed="onEnter"></iron-a11y-keys>
+            <paper-input required value="{{participantId}}" type="Number" label="Teilnehmernummer" auto-validate allowed-pattern="[0-9]"></paper-input>
+            <paper-button raised disabled="{{!_isParticipantIdValid}}" on-tap="beginSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
         </div>
@@ -88,9 +89,10 @@
   	# SPSQ-LONG-SHORT STARTING HERE #
 	# # # # # # # # # # # # # # # # #
     -->
-            <div class="spsq-long-short" id="spsq-long-short">
-                <survey-questionnaire class="first-survey" treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+            <div class="spsq-long-short">
+                <survey-questionnaire hidden="[[!_isFirstSurvey]]" id="firstSurvey" treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire hidden="[[!_isSecondSurvey]]" id="secondSurvey" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+
             </div>
 
             <!--
@@ -98,42 +100,46 @@
   	# SPSQ-SHORT-LONG STARTING HERE #
 	# # # # # # # # # # # # # # # # #
     -->
-            <div class="spsq-short-long" id="spsq-short-long">
-                <survey-questionnaire class="first-survey" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+            <div class="spsq-short-long">
+                <survey-questionnaire hidden="[[!_isFirstSurvey]]" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire hidden="[[!_isSecondSurvey]]" treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPMQ-LONG-SHORT STARTING HERE #
 	# # # # # # # # # # # # # # # # #
     -->
-            <div class="spmq-long-short" id="spmq-long-short">
-                <survey-questionnaire class="first-survey" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+            <div class="spmq-long-short">
+                <survey-questionnaire hidden="[[!_isFirstSurvey]]" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire hidden="[[!_isSecondSurvey]]" treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
             <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPMQ-SHORT-LONG STARTING HERE #
 	# # # # # # # # # # # # # # # # #
     -->
-            <div class="spmq-short-long" id="spmq-short-long">
-                <survey-questionnaire class="first-survey" hidden treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
-                <survey-questionnaire class="second-survey" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+            <div class="spmq-short-long">
+                <survey-questionnaire hidden="[[!_isFirstSurvey]]" treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire hidden="[[!_isSecondSurvey]]" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
             </div>
         </iron-pages>
+
+        <div class="card" hidden="[[!_isSurveyEnd]]">
+            Vielen Dank für die Teilnahme an der Umfrage!
+        </div>
+
     </template>
     <script>
         Polymer({
             is: "survey-app"
             , properties: {
-                userInput: {
+                participantId: {
                     type: Number
-                    , notify: true
                 , }
                 , target: {
                     type: Object
                     , value: function () {
-                        return this.userInput;
+                        return this.participantId;
                     }
                 }
                 , data: {
@@ -159,57 +165,69 @@
                     }
                 }
                 , questions: Object
+                , _isSignedIn: {
+                    type: Boolean
+                    , value: false
+                }
+                , _isFirstSurvey: {
+                    type: Boolean
+                    , value: true
+                , }
+                , _isSecondSurvey: {
+                    type: Boolean
+                    , value: false
+                , }
+                , _isSurveyEnd: {
+                    type: Boolean
+                    , value: false
+                }
+                , _isParticipantIdValid: {
+                    type: Boolean
+                    , value: false
+                    , computed: '_computeIsParticipantIdValid(participantId)'
+                }
             , }
-            , ready: function () {
-                this.pageIdx = 0;
-            }
             , listeners: {
-                'finish-subsurvey': 'showNextSurvey'
+                'finishSubSurvey': 'showNextSurvey'
             }
             , showNextSurvey: function () {
-                if (document.querySelector('.first-survey').hidden == true && document.querySelector('.second-survey').hidden == false) {
+                if (!this._isFirstSurvey && this._isSecondSurvey) {
                     this.sendSurvey();
+                    this._isSecondSurvey = false;
+                    this._isSurveyEnd = true;
                 }
-
-                document.querySelectorAll('.first-survey').forEach(function (item, index) {
-                    item.hidden = true;
-                });
-                document.querySelectorAll('.second-survey').forEach(function (item, index) {
-                    item.hidden = false;
-                });
+                if (!this._isSurveyEnd) {
+                    this._isFirstSurvey = false;
+                    this._isSecondSurvey = true;
+                }
 
             }
             , onEnter: function () {
-                if (this.validateParticipantId()) {
+                if (this._isParticipantIdValid) {
                     this.beginSurvey();
                 }
             }
-            , validateParticipantId: function (e) {
-                var participantId = this.userInput;
+            , _computeIsParticipantIdValid: function (participantId) {
                 var min = 1000;
                 var max = 1999;
                 //we give the participants a 4-digit number between max and min
                 if (participantId >= min && participantId <= max && participantId.toString().length === 4) {
-                    this.$.bSurveyStart.disabled = false;
                     return true;
                 } else {
-                    this.$.bSurveyStart.disabled = true;
                     return false;
                 }
             }
             , beginSurvey: function (e) {
-                var participantId = this.userInput;
                 //choose the survey type
-                var nr = participantId % 4;
+                var nr = this.participantId % 4;
                 var survSelec = this.$.surveySelection;
                 survSelec.selected = nr;
                 //save survey type and participant id
                 this.data.surveyType = survSelec.selectedItem.id;
-                this.data.participantId = participantId;
+                this.data.participantId = this.participantId;
                 //hide the initial participant form
-                this.$.fParticipantId.hidden = true;
+                this._isSignedIn = true;
             }
-
 
             , //Send function
             sendSurvey: function (e) {
