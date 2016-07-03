@@ -45,7 +45,9 @@
                 border-radius: 5px;
                 background-color: #fff;
                 color: #757575;
-                height: 30vh;
+                height: 40vh;
+                min-height: 350px;
+                @apply(--layout-vertical);
             }
             
             paper-button.indigo {
@@ -81,6 +83,7 @@
             <paper-button raised disabled="{{!_isParticipantIdValid}}" on-tap="beginSurvey" class="custom indigo">
                 Umfrage starten
             </paper-button>
+
         </div>
 
         <iron-pages id="surveySelection">
@@ -94,7 +97,6 @@
                 <survey-questionnaire hidden="[[!_isSecondSurvey]]" id="secondSurvey" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
 
             </div>
-
             <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPSQ-SHORT-LONG STARTING HERE #

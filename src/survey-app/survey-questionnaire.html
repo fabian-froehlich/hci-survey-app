@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 <!-- PAPER ELEMENTS -->
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
@@ -26,6 +28,10 @@
                 display: block;
             }
             
+            survey-question {
+                @apply(--layout-flex);
+            }
+            
             .card {
                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
                 padding: 16px;
@@ -35,6 +41,19 @@
                 color: #757575;
                 height: 40vh;
                 min-height: 350px;
+                @apply(--layout-vertical);
+            }
+            
+            .navigationBtn {
+                @apply(--layout-horizontal);
+                @apply(--layout-justified);
+                @apply(--layout-end);
+            }
+            
+            .startEndBtn {
+                @apply(--layout-vertical);
+                @apply(--layout-flex);
+                margin-bottom: 20px;
             }
             
             paper-button.indigo {
@@ -45,8 +64,6 @@
                     color: white !important;
                 }
                 ;
-                margin-bottom: 40px;
-                margin-top: 40px;
             }
             
             paper-button.indigo[disabled] {
@@ -55,11 +72,13 @@
         </style>
         <div id="[[treatment]]-[[variant]]">
             <iron-pages selected="{{selector}}">
-                <div id="surveyDescription" class="card">
+                <div class="card">
                     <div class="description"> [[actualDescription]]</div>
-                    <paper-button raised on-tap="startSurvey" class="custom indigo">
-                        Starten
-                    </paper-button>
+                    <div class="startEndBtn">
+                        <paper-button raised on-tap="startSurvey" class="custom indigo">
+                            Starten
+                        </paper-button>
+                    </div>
                 </div>
 
                 <!-- single question per side treatment -->
@@ -67,23 +86,23 @@
                     <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
                         <div class="card">
                             <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
-                            <div id="navigationButtons">
-                                <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
+                            <div class="navigationBtn">
+                                <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo back">
                                     Zurück
                                 </paper-button>
-                                <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo">
+                                <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo next">
                                     Weiter
                                 </paper-button>
                             </div>
                         </div>
                     </template>
                     <div class="card">
-                        <div class="buttons">
+                        <div class="startEndBtn">
                             <paper-button raised on-tap="endSurvey" class="custom indigo">
                                 Umfrage abschließen
                             </paper-button>
                         </div>
-                        <div id="navigationButtons">
+                        <div class="navigationBtn">
                             <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
@@ -102,7 +121,7 @@
                             <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
                         </div>
                     </template>
-                    <div class="buttons">
+                    <div class="startEndBtn">
                         <paper-button raised on-tap="endSurvey" class="custom indigo">
                             Umfrage abschließen
                         </paper-button>
@@ -145,17 +164,13 @@
                     , value: false
                     , computed: '_computeIsMQ(treatment)'
                 }
-                , _isDescription: {
-                    type: Boolean
-                    , value: true
-                }
                 , selector: {
                     type: Number
                     , value: 0
                 }
-                ,sqPagesSelector:{
+                , sqPagesSelector: {
                     type: Number
-                    ,value: 0
+                    , value: 0
                 }
             }
             , ready: function () {
@@ -184,7 +199,6 @@
             , _computeIsLastQuestion: function (pageIdx, questionsLength) {
                 return pageIdx >= questionsLength;
             }
-
             , _computeIsSQ: function (treatment) {
                 return treatment == 'sq';
             }
@@ -217,8 +231,10 @@
 
             }
             , startSurvey: function () {
+                this.actualData.timestampStart = Date.now();
+                this.data.treatment = this.treatment;
+                this.data.variant = this.data.variant + this.variant;
 
-                this.$.surveyDescription.hidden = true;
                 if (this._isSQ) {
                     this.selector = 1;
 
@@ -226,10 +242,6 @@
                 if (this._isMQ) {
                     this.selector = 2;
                 }
-                this._isDescription = false;
-                this.actualData.timestampStart = Date.now();
-                this.data.treatment = this.treatment;
-                this.data.variant = this.data.variant + this.variant;
             }
             , endSurvey: function () {
                 this.actualData.timestampEnd = Date.now();
