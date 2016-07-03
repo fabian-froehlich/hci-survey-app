@@ -1,57 +1,231 @@
 {
-    "shortDescription": "Es folgt eine kurze Umfrage"
+    "shortDescription": "Es folgt eine kurze Umfrage zum Thema Fast-Food"
     , "shortSurvey": [
         {
-            "question": "Short: What do you want for christmas?"
-            , "mode": "check"
-            , "answers": [
-            "Nintendo"
-            , "iPony"
-            , "You"
-            , "A tiny little Shotgun"
-         ]
-      }
-        , {
-            "question": "Short: When mommy says no, who do you ask next?"
+            "question": "Wie oft gehen Sie Fast Food essen?"
             , "mode": "radio"
             , "answers": [
-            "Daddy"
-            , "Dog"
-            , "no one"
+              "täglich"
+            , "monatlich"
+            , "jährlich"
+            , "nie"
          ]
       }
         , {
-            "question": "Short: What do you want for birthday?"
+            "question": "Ich esse Fast-Food am liebsten in …  (Mehrfachnennung möglich)"
             , "mode": "check"
             , "answers": [
-            "The"
-            , "cake"
-            , "is"
-            , "a"
-            , "lie"
+              "McDonald's"
+            , "Burger Kind"
+            , "KFC"
+            , "Subway's"
+            , "Joey's Pizza"
+            , "Pizza Hut"
+            , "Nordsee"
+            , "anderes Fast-Food-Restaurant"
+            , "ich esse kein Fast-Food"
+            , ""
+
          ]
       }
         , {
-            "question": "Short: What do you want for namesday?"
+            "question": "Wann wählen Sie den Weg zum Fast Food Restaurant? (Mehrfachnennung möglich)"
             , "mode": "check"
             , "answers": [
-            "movie-tickets"
-            , "peace"
+            "Mittagspause"
+            , "Feierabend"
+            , "Wochenende"
+            , "Urlaub"
+            , "Festlichkeiten"
+            , "anderer Anlass"
+            , "Ich gehe nicht in Fast-Food-Restaurants"
+
+         ]
+      }
+      , {
+            "question": "Welche Altersgruppe besucht Ihrer Meinung nach am häufigsten Fast-Food-Restaurants?"
+            , "mode": "check"
+            , "answers": [
+            "9-13 Jährige"
+            , "14-18 Jährige"
+            , "19-23 Jährige"
+            , "23-27 Jährige"
+            , ">27 Jährige"
          ]
       }
         , {
-            "question": "Short: BigMac??"
+            "question": "Was ist Ihrer Meinung nach der wichtigste Grund für den Verzehr von Fast-Food?"
             , "mode": "radio"
             , "answers": [
-            "yes"
-            , "no"
+              "Zeitmangel"
+            , "Geschmack"
+            , "reichhaltiges Angebot"
+            , "Preis"
+            , "Bequemlichkeit"
+            , "anderer Grund"
          ]
       }
         , {
-            "question": "Short: What is your name?"
+            "question": "Finden Sie, dass Fast-Food zu teuer ist?"
             , "mode": "radio"
             , "answers": [
-            "A girl has no name"
+            "Ja"
+            , "Nein"
+            , "Teils-teils"
+            , "keine Ahnung"
+         ]
+      }
+        , {
+            "question": "Wie bewerten Sie die Qualität der Produkte in einem Fast-Food-Restaurant?"
+            , "mode": "radio"
+            , "answers": [
+            "sehr schlecht"
+            , "schlecht"
+            , "neutral"
+            , "gut"
+            , "sehr gut"
+         ]
+      }
+        , {
+            "question": "Glauben Sie, dass die großen Fast-Food-Ketten hygienisch arbeiten?"
+            , "mode": "radio"
+            , "answers": [
+             "Ja"
+            , "Nein"
+            , "Teils-teils"
+            , "keine Ahnung"
+         ]
+      }
+      , {
+            "question": "Wieviel Kilokalorien enthält durchschnittlich Ihrer Meinung nach eine Mahlzeit in einem Fast-Food-Restaurant?"
+            , "mode": "radio"
+            , "answers": [
+            "<500"
+            , "500-1000"
+            , "1000-1500"
+            , "1500-2000"
+            , ">2000"
+         ]
+      }
+      , {
+            "question": "Das Essen bei Fast-Food-Restaurants enthält zuviel Salz"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Das Essen bei Fast-Food-Restaurants enthält zuviele Kalorien"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Das Essen bei Fast-Food-Restaurants enthält zuviel Fett"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Das Essen bei Fast-Food-Restaurants enthält zuviele Zusatzstoffe"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Das Essensangebot in einem Fast-Food-Restaurant ist reichhaltig"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls magereres Fleisch verarbeitet werden würde"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr Bio-Lebensmittel verwendet werden würden"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr Vollkornprodukte verwendet werden würden"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr frisches Obst und Gemüse verwendet werden würde"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+       , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr glutenfreie Produkte angeboten werden würden"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+       , {
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls auch vegane Produkte angeboten werden würden"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
    ]
