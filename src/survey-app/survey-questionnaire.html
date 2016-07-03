@@ -39,7 +39,7 @@
                 border-radius: 5px;
                 background-color: #fff;
                 color: #757575;
-                height: 40vh;
+                /*height: 40vh;*/
                 min-height: 350px;
                 @apply(--layout-vertical);
             }
@@ -152,7 +152,7 @@
                     computed: '_computeIsFirstQuestion(sqPagesSelector)'
                 }
                 , _isLastQuestion: {
-                    computed: '_computeIsLastQuestion(sqPagesSelector, questions.longSurvey.length)'
+                    computed: '_computeIsLastQuestion(sqPagesSelector, actualQuestions.length)'
                 }
                 , _isSQ: {
                     type: Boolean
