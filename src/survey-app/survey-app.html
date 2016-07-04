@@ -68,7 +68,9 @@
         <!-- load questions as json-->
         <iron-ajax auto url="./questions.json" last-response="{{questions}}" handle-as="json">
         </iron-ajax>
-        <iron-ajax id="ajax" method="post" url="http://hci.honigpuler.de/receiver.php" body='[[data]]' contentType='application/json' on-response="hresponse">
+        <!--<iron-ajax id="ajax" method="post" url="http://hci.honigpuler.de/receiver.php" body='[[data]]' contentType='application/json' on-response="hresponse">
+        </iron-ajax>-->
+        <iron-ajax id="ajax" method="post" url="http://localhost:8080" contentType='application/json' on-response="hresponse">
         </iron-ajax>
 
         <app-header effects="parallax-background">
@@ -236,6 +238,7 @@
             sendSurvey: function (e) {
                 console.log('both surveys completed');
                 console.log(this.data);
+                this.$.ajax.body = JSON.stringify(this.data);
                 this.$.ajax.generateRequest();
             }
             , hresponse: function (request) {
