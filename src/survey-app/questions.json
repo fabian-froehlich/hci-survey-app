@@ -225,59 +225,434 @@
          ]
       }
    ]
-    , "longDescription": "Es folgt eine lange Umfrage"
+    , "longDescription": "Es folgt eine allgemeine Umfrage zum Thema Politik. Es werden Fragen zum politischen Interesse, zur Wahl, zum politischen System in Deutschland und der EU und zu internationaler Politik gestellt."
     , "longSurvey": [
         {
-            "question": "LONG: What do you want for christmas?"
-            , "mode": "check"
-            , "answers": [
-            "Nintendo"
-            , "iPony"
-            , "You"
-            , "A tiny little Shotgun"
-         ]
-      }
-        , {
-            "question": "LONG: When mommy says no, who do you ask next?"
+            "question": "Wie sehr interessieren Sie sich für Politik?"
             , "mode": "radio"
             , "answers": [
-            "Daddy"
-            , "Dog"
-            , "no one"
+            "sehr interessiert"
+            , "interessiert"
+            , "wenig interessiert"
+            , "gar nicht interessiert"
+            , "keine Angabe"
          ]
       }
         , {
-            "question": "LONG: What do you want for birthday?"
-            , "mode": "check"
-            , "answers": [
-            "The"
-            , "cake"
-            , "is"
-            , "a"
-            , "lie"
-         ]
-      }
-        , {
-            "question": "LONG: What do you want for namesday?"
-            , "mode": "check"
-            , "answers": [
-            "movie-tickets"
-            , "peace"
-         ]
-      }
-        , {
-            "question": "LONG: BigMac??"
+            "question": "Seit ich wahlberechtigt bin, bin ich bei jeder Wahl wählen gegangen."
             , "mode": "radio"
             , "answers": [
-            "yes"
-            , "no"
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
          ]
       }
         , {
-            "question": "LONG: What is your name?"
+            "question": "Ich informiere mich regelmäßig über aktuelle politische Ereignisse und Entwicklungen in meinem Land."
             , "mode": "radio"
             , "answers": [
-            "A girl has no name"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+        , {
+            "question": "Wie oft informieren Sie sich über Politik?"
+            , "mode": "radio"
+            , "answers": [
+            "mehrmals am Tag"
+            , "einmal pro Tag"
+            , "mehrmals wöchentlich"
+            , "einmal pro Woche"
+            , "mehrmals pro Monat"
+            , "einmal pro Monat"
+            , "weniger"
+            , "nie"
+         ]
+      }
+        , {
+            "question": "Wie informieren Sie sich dich über aktuelle Ereignisse? (Mehrfachnennung möglich)"
+            , "mode": "check"
+            , "answers": [
+            "Printmedien"
+            , "Radio"
+            , "Fernsehen"
+            , "Internet"
+            , "Freunde, Familie etc"
+            , "anderes"
+            , "gar nicht"
+         ]
+      }
+        , {
+            "question": "Die Berichterstattung deutscher Medien finde ich ausgewogen"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich weiß, welche Parteien derzeit die Bundesregierung bilden"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich weiß, welche Parteien derzeit in der Opposition im Bundestag vertreten sind"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Im Bundestag vertritt mindestens eine Partei meine politische Meinung"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne die Mehrheitsverhältnisse im Deutschen Bundesrat"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem föderalen System der Bundesrepublik Deutschland vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne mich mit dem Prinzip der Gewaltenteilung in Deutschland aus"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem Parteiensystem in Deutschland vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem Ablauf und der Funktionsweise der Bundestagswahl in Deutschland vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem Ablauf und der Funktionsweise einer Landtagswahl in Deutschland vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne mich mit dem Prozess der Regierungsbildung in Deutschland aus"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne mich mit dem Prozess der Gesetzesbildung und -verabschiedung in Deutschland aus"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne mich mit der Zusammensetzung des Bundesrates aus"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich kenne die Aufgaben des deutschen Bundestages"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Vor einer Wahl lese ich die Wahlprogramme der verschiedenen Parteien"
+            , "mode": "radio"
+            , "answers": [
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
+         ]
+      }
+      , {
+            "question": "Vor einer Wahl nutze ich Angebote (z.B. Wahl-O-Mat der Bundeszentrale für politische Bildung) um mich über die Wahlprogramme der Parteien zu informieren"
+            , "mode": "radio"
+            , "answers": [
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
+         ]
+      }
+      , {
+            "question": "Vor einer Wahl besuche ich Informations- und/oder Parteiveranstaltungen um mich zu informieren."
+            , "mode": "radio"
+            , "answers": [
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
+         ]
+      }
+      , {
+            "question": "Wenn ich kein ansprechendes Wahlprogramm finde, gehe ich nicht wählen"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Es gibt genügend Möglichkeiten sich über anstehende Wahlen zu informieren"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich interessiere mich für die Politik der europäischen Union"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich infomiere mich regelmäßig über die Politik der europäischen Union"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit der historischen Entwicklung der europäischen Union vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem Gesetzgebungsverfahren der europäischen Union vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit den politischen Institutionen der EU und ihren Funktionen vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin mit dem Ablauf und der Funktionsweise der Wahl des europäischen Parlaments vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich habe den Ausgang des EU-Referendums in Großbritannien (“Brexit”) verfolgt"
+            , "mode": "radio"
+            , "answers": [
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
+         ]
+      }
+      , {
+            "question": "Ich interessiere mich für den Präsidentenwahlkampf in den USA"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich verfolge die Antiterrorpolitik der internationalen Staatengemeinschaft im Nahen Osten"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich interessiere mich für die Flüchtlingspolitik der europäischen Union"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich habe die Entwicklung der Russland-Ukraine-Krise verfolgt"
+            , "mode": "radio"
+            , "answers": [
+            "ja"
+            , "teilweise"
+            , "nein"
+            , "keine Angabe"
+         ]
+      }
+      , {
+            "question": "Ich bin mit den Ereignissen im Rahmen des arabischen Frühlings vertraut"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich verfolge die politischen und gesellschaftlichen Entwicklungen in Griechenland und anderen europäischen Krisenstaaten"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich verfolge die aktuellen politischen Entwicklungen in Polen"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
+         ]
+      }
+      , {
+            "question": "Ich bin über die aktuellen politischen Entwicklungen in der Türkei informiert"
+            , "mode": "radio"
+            , "answers": [
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
    ]
