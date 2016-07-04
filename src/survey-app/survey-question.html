@@ -90,11 +90,13 @@
                 var i = args[0];
                 if (this.data.timestampsDecision[i] instanceof Array === false) {
                     this.data.timestampsDecision[i] = new Array();
+                    this.data.timestampsDecision[i].push({
+                        "mode" : args[2]
+                    });
+
                 }
                 this.data.timestampsDecision[i].push({
-                    "questionNr" : args[0]
-                    ,"answer": args[1]
-                    , "mode" : args[2]
+                    "answer": args[1]
                     , "time": Date.now()
                 });
                 console.log(this.data.timestampsDecision[i]);
