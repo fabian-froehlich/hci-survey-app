@@ -72,6 +72,8 @@
         </iron-ajax>
         <!--<iron-ajax id="ajax" method="post" url="http://hci.honigpuler.de/receiver.php" body='[[data]]' contentType='application/json' on-response="hresponse">
         </iron-ajax>-->
+        <iron-ajax id="ajax" method="post" url="http://localhost:8080" contentType='application/json' on-response="hresponse">
+        </iron-ajax>
 
         <firebase-app 
                       auth-domain="hci-survey-app.firebaseapp.com" 
@@ -252,8 +254,10 @@
             sendSurvey: function (e) {
                 console.log('both surveys completed');
                 console.log(this.data);
-                //this.$.ajax.generateRequest();
+                
                 this.$.firebaseSend.save(this.participantId);
+                this.$.ajax.body = JSON.stringify(this.data);
+                this.$.ajax.generateRequest();
             }
             , hresponse: function (request) {
                 console.log(request.detail.response);
