@@ -39,7 +39,7 @@
          ]
       }
       , {
-            "question": "Welche Altersgruppe besucht Ihrer Meinung nach am häufigsten Fast-Food-Restaurants?"
+            "question": "Welche Altersgruppe besucht Ihrer Meinung nach am häufigsten Fast-Food-Restaurants? (Mehrfachnennung möglich)"
             , "mode": "check"
             , "answers": [
             "9-13 Jährige"
@@ -65,9 +65,9 @@
             "question": "Finden Sie, dass Fast-Food zu teuer ist?"
             , "mode": "radio"
             , "answers": [
-            "Ja"
-            , "Nein"
-            , "Teils-teils"
+            "ja"
+            , "teils-teils"
+            , "nein"
             , "keine Ahnung"
          ]
       }
@@ -75,20 +75,20 @@
             "question": "Wie bewerten Sie die Qualität der Produkte in einem Fast-Food-Restaurant?"
             , "mode": "radio"
             , "answers": [
-            "sehr schlecht"
-            , "schlecht"
-            , "neutral"
+            "sehr gut"
             , "gut"
-            , "sehr gut"
+            , "neutral"
+            , "schlecht"
+            , "sehr schlecht"
          ]
       }
         , {
             "question": "Glauben Sie, dass die großen Fast-Food-Ketten hygienisch arbeiten?"
             , "mode": "radio"
             , "answers": [
-             "Ja"
-            , "Nein"
-            , "Teils-teils"
+             "ja"
+            , "nein"
+            , "teils-teils"
             , "keine Ahnung"
          ]
       }
@@ -159,7 +159,7 @@
          ]
       }
       , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls magereres Fleisch verarbeitet werden würde"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls magereres Fleisch verarbeitet werden würde"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
@@ -170,7 +170,7 @@
          ]
       }
       , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr Bio-Lebensmittel verwendet werden würden"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls mehr Bio-Lebensmittel verwendet werden würden"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
@@ -181,7 +181,7 @@
          ]
       }
       , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr Vollkornprodukte verwendet werden würden"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls mehr Vollkornprodukte verwendet werden würden"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
@@ -192,7 +192,7 @@
          ]
       }
       , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr frisches Obst und Gemüse verwendet werden würde"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls mehr frisches Obst und Gemüse verwendet werden würde"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
@@ -203,7 +203,7 @@
          ]
       }
        , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls mehr glutenfreie Produkte angeboten werden würden"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls mehr glutenfreie Produkte angeboten werden würden"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
@@ -214,7 +214,7 @@
          ]
       }
        , {
-            "question": "Ich würde öfter in ein Fast-Food-Restaurant, falls auch vegane Produkte angeboten werden würden"
+            "question": "Ich würde öfter in ein Fast-Food-Restaurant gehen, falls auch vegane Produkte angeboten werden würden"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
