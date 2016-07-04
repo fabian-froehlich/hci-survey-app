@@ -29,7 +29,7 @@
         <template is="dom-if" if="[[_isCheckQuestion]]">
             <template is="dom-repeat" items="[[answers]]">
                 <p>
-                    <paper-checkbox on-tap="timestampHandler" data-args$="[[question-number]], [[item]]">[[item]]</paper-checkbox>
+                    <paper-checkbox on-tap="timestampHandler" data-args$="[[question-number]], [[item]], [[mode]]">[[item]]</paper-checkbox>
                 </p>
             </template>
         </template>
@@ -37,7 +37,7 @@
             <paper-radio-group>
                 <br>
                 <template is="dom-repeat" items="[[answers]]">
-                    <paper-radio-button name="[[item]]" on-tap="timestampHandler" data-args$="[[question-number]], [[item]]">[[item]]</paper-radio-button>
+                    <paper-radio-button name="[[item]]" on-tap="timestampHandler" data-args$="[[question-number]], [[item]], [[mode]]">[[item]]</paper-radio-button>
                     <br>
                     <br>
                 </template>
@@ -92,9 +92,12 @@
                     this.data.timestampsDecision[i] = new Array();
                 }
                 this.data.timestampsDecision[i].push({
-                    "answer": args[1]
+                    "questionNr" : args[0]
+                    ,"answer": args[1]
+                    , "mode" : args[2]
                     , "time": Date.now()
                 });
+                console.log(this.data.timestampsDecision[i]);
             }
         });
     </script>
