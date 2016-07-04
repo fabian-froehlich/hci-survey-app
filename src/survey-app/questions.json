@@ -239,7 +239,7 @@
          ]
       }
         , {
-            "question": "Seit ich wahlberechtigt bin, bin ich bei jeder Wahl wählen gegangen."
+            "question": "Seit ich wahlberechtigt bin, bin ich bei jeder Wahl wählen gegangen"
             , "mode": "radio"
             , "answers": [
             "ja"
@@ -247,9 +247,19 @@
             , "nein"
             , "keine Angabe"
          ]
+      } , {
+            "question": "Wenn am nächsten Sonntag Bundestagswahl wäre, würde ich wählen gehen"
+            , "mode": "radio"
+            , "answers": [
+            "sicher"
+            , "wahrscheinlich schon"
+            , "wahrscheinlich nicht"
+            , "sicher nicht"
+            , "keine Angabe"
+         ]
       }
         , {
-            "question": "Ich informiere mich regelmäßig über aktuelle politische Ereignisse und Entwicklungen in meinem Land."
+            "question": "Ich informiere mich regelmäßig über aktuelle politische Ereignisse und Entwicklungen in meinem Land"
             , "mode": "radio"
             , "answers": [
             "trifft zu"
