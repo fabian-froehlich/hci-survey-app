@@ -15,6 +15,7 @@
             
             paper-checkbox {
                 --paper-checkbox-size: 30px;
+                padding: 5px;
             }
             
             paper-radio-button {
@@ -24,6 +25,7 @@
             paper-radio-group {
                 --paper-radio-group-item-padding: 0px;
             }
+
         </style>
         <div class="question">Frage [[plusOne(question-number)]]: [[question]]</div>
         <template is="dom-if" if="[[_isCheckQuestion]]">

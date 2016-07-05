@@ -2,12 +2,13 @@
     "shortDescription": "Es folgt eine kurze Umfrage zum Thema Fast-Food"
     , "shortSurvey": [
         {
-            "question": "Wie oft gehen Sie Fast Food essen?"
+            "question": "Wie oft gehen Sie Fast-Food essen?"
             , "mode": "radio"
             , "answers": [
               "täglich"
             , "monatlich"
             , "jährlich"
+            , "seltener"
             , "nie"
          ]
       }
@@ -16,24 +17,19 @@
             , "mode": "check"
             , "answers": [
               "McDonald's"
-            , "Burger Kind"
-            , "KFC"
-            , "Subway's"
-            , "Pizza Hut"
-            , "Nordsee"
+            , "Burger King"
+            , "lokaler Imbiss"
             , "anderes Fast-Food-Restaurant"
             , "ich esse kein Fast-Food"
          ]
       }
         , {
-            "question": "Wann wählen Sie den Weg zum Fast Food Restaurant? (Mehrfachnennung möglich)"
+            "question": "Wann wählen Sie den Weg zum Fast-Food-Restaurant? (Mehrfachnennung möglich)"
             , "mode": "check"
             , "answers": [
             "Mittagspause"
             , "Feierabend"
-            , "Wochenende"
-            , "Urlaub"
-            , "Festlichkeiten"
+            , "Wochenende/Urlaub"
             , "anderer Anlass"
             , "Ich gehe nicht in Fast-Food-Restaurants"
          ]
@@ -55,20 +51,20 @@
             , "answers": [
               "Zeitmangel"
             , "Geschmack"
-            , "reichhaltiges Angebot"
             , "Preis"
             , "Bequemlichkeit"
             , "anderer Grund"
          ]
       }
         , {
-            "question": "Finden Sie, dass Fast-Food zu teuer ist?"
+            "question": "Die Preise für Essen in den Fast-Food-Restaurants sind zu teuer"
             , "mode": "radio"
             , "answers": [
-            "ja"
+             "trifft zu"
+            , "trifft eher zu"
             , "teils-teils"
-            , "nein"
-            , "keine Ahnung"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
         , {
@@ -83,13 +79,14 @@
          ]
       }
         , {
-            "question": "Glauben Sie, dass die großen Fast-Food-Ketten hygienisch arbeiten?"
+            "question": "Die großen Fast-Food-Restaurants arbeiten hygienisch"
             , "mode": "radio"
             , "answers": [
-             "ja"
-            , "nein"
+             "trifft zu"
+            , "trifft eher zu"
             , "teils-teils"
-            , "keine Ahnung"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
@@ -245,6 +242,7 @@
             "ja"
             , "teilweise"
             , "nein"
+            , "weiß nicht"
             , "keine Angabe"
          ]
       } , {
@@ -274,25 +272,20 @@
             , "mode": "radio"
             , "answers": [
             "mehrmals am Tag"
-            , "einmal pro Tag"
             , "mehrmals wöchentlich"
-            , "einmal pro Woche"
             , "mehrmals pro Monat"
-            , "einmal pro Monat"
             , "weniger"
             , "nie"
          ]
       }
         , {
-            "question": "Wie informieren Sie sich dich über aktuelle Ereignisse? (Mehrfachnennung möglich)"
+            "question": "Wie informieren Sie sich über aktuelle Ereignisse? (Mehrfachnennung möglich)"
             , "mode": "check"
             , "answers": [
             "Printmedien"
-            , "Radio"
-            , "Fernsehen"
+            , "Rundfunk (Radio, TV)"
             , "Internet"
             , "Freunde, Familie etc"
-            , "anderes"
             , "gar nicht"
          ]
       }
@@ -454,30 +447,33 @@
             "question": "Vor einer Wahl lese ich die Wahlprogramme der verschiedenen Parteien"
             , "mode": "radio"
             , "answers": [
-            "ja"
-            , "teilweise"
-            , "nein"
-            , "keine Angabe"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
             "question": "Vor einer Wahl nutze ich Angebote (z.B. Wahl-O-Mat der Bundeszentrale für politische Bildung) um mich über die Wahlprogramme der Parteien zu informieren"
             , "mode": "radio"
             , "answers": [
-            "ja"
-            , "teilweise"
-            , "nein"
-            , "keine Angabe"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
             "question": "Vor einer Wahl besuche ich Informations- und/oder Parteiveranstaltungen um mich zu informieren."
             , "mode": "radio"
             , "answers": [
-            "ja"
-            , "teilweise"
-            , "nein"
-            , "keine Angabe"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
@@ -572,10 +568,11 @@
             "question": "Ich habe den Ausgang des EU-Referendums in Großbritannien (“Brexit”) verfolgt"
             , "mode": "radio"
             , "answers": [
-            "ja"
-            , "teilweise"
-            , "nein"
-            , "keine Angabe"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
@@ -615,10 +612,11 @@
             "question": "Ich habe die Entwicklung der Russland-Ukraine-Krise verfolgt"
             , "mode": "radio"
             , "answers": [
-            "ja"
-            , "teilweise"
-            , "nein"
-            , "keine Angabe"
+            "trifft zu"
+            , "trifft eher zu"
+            , "teils-teils"
+            , "trifft eher nicht zu"
+            , "trifft nicht zu"
          ]
       }
       , {
