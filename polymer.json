@@ -1,0 +1,8 @@
+{
+    "entrypoint": "index.html",
+    "shell": "src/survey-app.html",
+    "fragments": [
+        "src/survey-question.html",
+        "src/survey-questionnaire.html"
+  ]
+}
