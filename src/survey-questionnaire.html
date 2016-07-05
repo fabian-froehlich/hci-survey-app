@@ -237,8 +237,9 @@
             }
             , endSurvey: function () {
                 this.actualData.timestampEnd = Date.now();
-                console.log("finished subsurvey");
-                console.log(this.data)
+                //DEBUG OUTPUT
+                //console.log("finished subsurvey");
+                //console.log(this.data)
                 this.fire('finishSubSurvey');
             }
         });
