@@ -58,7 +58,7 @@ $filename = $jsonString['participantId'];
 $filename .= '-';
 $filename .= $jsonString['variant'];
 
-if(file_exists($filename . '.txt')) {
+if(file_exists("data/".$filename . '.txt')) {
 $date = new DateTime();
 $filename .= '-';
 $filename .= $date->getTimestamp();
@@ -67,7 +67,7 @@ $filename .= $date->getTimestamp();
 $filename .= '.txt';
 
 
-$file = fopen($filename, 'w') or die("can't open file");
+$file = fopen("data/". $filename, 'w') or die("can't open file");
 		fwrite($file, json_encode($jsonString));
 		fclose($file);
 //	} else {
