@@ -23,7 +23,7 @@
                 --paper-radio-group-item-padding: 0px;
             }
         </style>
-        <div class="question" style="[[questionHeight]]">Frage [[plusOne(question-number)]]: [[question]]</div>
+        <div class="question" style$="[[questionHeight]]">Frage [[plusOne(question-number)]]: [[question]]</div>
         <template is="dom-if" if="[[_isCheckQuestion]]">
             <template is="dom-repeat" items="[[answers]]">
                 <p>
@@ -49,7 +49,7 @@
             is: 'survey-question',
 
             properties: {
-                'treatment': {
+                treatment: {
                     type: String
                 },
                 'question-number': {
@@ -91,7 +91,7 @@
             }, 
             computeQuestionHeight(treatment){
                 if(treatment == 'sq'){
-                    return 'height: 100px'
+                    return 'height: 100px;'
                 }
             }
             ,
