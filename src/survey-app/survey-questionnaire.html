@@ -1,23 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <!-- IRON ELEMENTS -->
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
-<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<!--<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">-->
 
 <!-- PAPER ELEMENTS -->
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../../bower_components/paper-behaviors/paper-checked-element-behavior.html">
-<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<!--<link rel="import" href="../../bower_components/paper-behaviors/paper-button-behavior.html">-->
 <!-- APP ELEMENTS -->
+<!--
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+-->
 
 <link rel="import" href="./survey-question.html">
 
@@ -27,11 +24,9 @@
             :host {
                 display: block;
             }
-            
             survey-question {
-                @apply(--layout-flex);
+                /*@apply(--layout-flex);*/
             }
-            
             .card {
                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
                 padding: 16px;
@@ -39,23 +34,21 @@
                 border-radius: 5px;
                 background-color: #fff;
                 color: #757575;
+                /*min-height: 400px;*/
                 /*height: 40vh;*/
-                min-height: 350px;
-                @apply(--layout-vertical);
-            }
-            
+                /*@apply(--layout-vertical);*/
+            }/*
             .navigationBtn {
                 @apply(--layout-horizontal);
                 @apply(--layout-justified);
                 @apply(--layout-end);
-            }
-            
+            }*/
             .startEndBtn {
-                @apply(--layout-vertical);
-                @apply(--layout-flex);
+                /*@apply(--layout-vertical);
+                @apply(--layout-flex);*/
                 margin-bottom: 40px;
             }
-            
+
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -90,7 +83,7 @@
                                 <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo back">
                                     Zurück
                                 </paper-button>
-                                <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo next">
+                                <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo next">
                                     Weiter
                                 </paper-button>
                             </div>
@@ -106,7 +99,7 @@
                             <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
-                            <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo">
+                            <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo">
                                 Weiter
                             </paper-button>
                         </div>
