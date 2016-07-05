@@ -291,6 +291,7 @@
 
                 this.$.firebaseSend.save(this.participantId);
                 this.$.ajax.body = JSON.stringify(this.data);
+                console.log(JSON.stringify(this.data));
                 this.$.ajax.generateRequest();
             }
             , hresponse: function (request) {

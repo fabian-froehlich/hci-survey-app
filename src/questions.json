@@ -6,9 +6,9 @@
             , "mode": "radio"
             , "answers": [
               "täglich"
+            , "wöchentlich"
             , "monatlich"
             , "jährlich"
-            , "seltener"
             , "nie"
          ]
       }
