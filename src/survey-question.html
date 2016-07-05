@@ -12,22 +12,18 @@
             :host {
                 display: block;
             }
-            
             paper-checkbox {
                 --paper-checkbox-size: 30px;
                 padding: 5px;
             }
-            
             paper-radio-button {
                 --paper-radio-button-size: 30px;
             }
-            
             paper-radio-group {
                 --paper-radio-group-item-padding: 0px;
             }
-
         </style>
-        <div class="question" style="height: 100px">Frage [[plusOne(question-number)]]: [[question]]</div>
+        <div class="question" style="[[questionHeight]]">Frage [[plusOne(question-number)]]: [[question]]</div>
         <template is="dom-if" if="[[_isCheckQuestion]]">
             <template is="dom-repeat" items="[[answers]]">
                 <p>
@@ -53,28 +49,34 @@
             is: 'survey-question',
 
             properties: {
+                'treatment': {
+                    type: String
+                },
                 'question-number': {
-                    type: String
-                , }
-                , question: {
-                    type: String
-                , }
-                , qnr: {
-                    type: Number
-                , }
-                , mode: {
-                    type: String
-                , }
-                , answers: {
-                    type: Array
-                , }
-                , data: Object
-                , _isCheckQuestion: {
-                    computed: '_computeIsCheckQuestion(mode)'
-                , }
-                , _isRadioQuestion: {
-                    computed: '_computeIsRadioQuestion(mode)'
-                , }
+                    type: String,
+                },
+                question: {
+                    type: String,
+                },
+                qnr: {
+                    type: Number,
+                },
+                mode: {
+                    type: String,
+                },
+                answers: {
+                    type: Array,
+                },
+                data: Object,
+                _isCheckQuestion: {
+                    computed: '_computeIsCheckQuestion(mode)',
+                },
+                _isRadioQuestion: {
+                    computed: '_computeIsRadioQuestion(mode)',
+                },
+                questionHeight: {
+                    computed: 'computeQuestionHeight(treatment)'
+                }
 
 
             }, //Increment+1 function for starting visual question count with 1
@@ -83,20 +85,30 @@
             }, //Boolean functions for dom-if statements
             _computeIsCheckQuestion: function (mode) {
                 return mode == 'check'
-            }
-            , _computeIsRadioQuestion: function (mode) {
+            },
+            _computeIsRadioQuestion: function (mode) {
                 return mode == 'radio'
-            }, // Handler for receiving timestamps and assigning them into a datastructure
+            }, 
+            computeQuestionHeight(treatment){
+                if(treatment == 'sq'){
+                    return 'height: 100px'
+                }
+            }
+            ,
+            // Handler for receiving timestamps and assigning them into a datastructure
             timestampHandler: function (e) {
                 var args = Polymer.dom(e).localTarget.getAttribute('data-args').split(', ');
                 var i = args[0];
                 if (this.data.timestampsDecision[i] instanceof Object === false) {
-                    var element = {"mode":args[2], "answers": new Array() };
+                    var element = {
+                        "mode": args[2],
+                        "answers": new Array()
+                    };
                     this.data.timestampsDecision[i] = element;
                 }
                 this.data.timestampsDecision[i]["answers"].push({
-                    "answer": args[1]
-                    , "time": Date.now()
+                    "answer": args[1],
+                    "time": Date.now()
                 });
             }
         });

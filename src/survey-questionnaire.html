@@ -78,7 +78,7 @@
                 <iron-pages id="sqPages" selected="{{sqPagesSelector}}">
                     <template is="dom-repeat" items="[[actualQuestions]]" index-as="questionNumber">
                         <div class="card">
-                            <survey-question question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
+                            <survey-question treatment='[[treatment]]'question-number="[[questionNumber]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{actualData}}"></survey-question>
                             <div class="navigationBtn">
                                 <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo back">
                                     Zurück
