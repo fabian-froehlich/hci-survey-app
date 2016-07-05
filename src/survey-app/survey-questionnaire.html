@@ -48,6 +48,7 @@
                 @apply(--layout-flex);*/
                 margin-bottom: 40px;
             }
+
             paper-button.indigo {
                 background-color: var(--paper-indigo-500);
                 color: white;
@@ -82,7 +83,7 @@
                                 <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo back">
                                     Zurück
                                 </paper-button>
-                                <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo next">
+                                <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo next">
                                     Weiter
                                 </paper-button>
                             </div>
@@ -98,7 +99,7 @@
                             <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
                                 Zurück
                             </paper-button>
-                            <paper-button disabled="[[_isLastQuestion]]" raised on-tap="nextQuestion" class="custom indigo">
+                            <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo">
                                 Weiter
                             </paper-button>
                         </div>
