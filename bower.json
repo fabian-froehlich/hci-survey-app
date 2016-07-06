@@ -4,8 +4,6 @@
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.6.0",
-    "polymerfire": "firebase/polymerfire#^0.9.3",
-    "neon-animation": "PolymerElements/neon-animation#^1.2.3",
     "paper-button": "PolymerElements/paper-button#^1.0.12",
     "app-layout": "PolymerElements/app-layout#^0.9.1",
     "paper-input": "PolymerElements/paper-input#^1.1.14",

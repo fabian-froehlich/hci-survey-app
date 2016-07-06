@@ -45,8 +45,6 @@
                     </div>
                 </div>
             </template>
-            <loading-element loading=[[loading]] content-id="content">
-                <div id="content">
                     <template is="dom-if" if="[[_isSqActive]]">
                         <!-- single question per side treatment -->
                         <survey-questionnaire-sq treatment="{{treatment}}" questions="{{actualQuestions}}" data="{{actualData}}"></survey-questionnaire-sq>
@@ -56,9 +54,6 @@
                         <!-- multiple question per side treatment -->
                         <survey-questionnaire-mq treatment="{{treatment}}" questions="{{actualQuestions}}" data="{{actualData}}"></survey-questionnaire-mq>
                     </template>
-                </div>
-            </loading-element>
-
         </div>
     </template>
 
@@ -105,10 +100,6 @@
                     type: Number
                     , value: 0
                 }
-                , loading: {
-                    type: Boolean
-                    , value: false
-                }
             }
             , ready: function () {
                 if (this.variant == 'short') {
@@ -137,7 +128,6 @@
                 return treatment == 'mq';
             }
             , startSurvey: function () {
-                this.loading = true;
                 this._isIntroduction = false;
                 this.actualData.timestampStart = Date.now();
                 this.data.treatment = this.treatment;
@@ -148,8 +138,6 @@
                 if (this._isMQ) {
                     this._isMqActive = true;
                 }
-                this.loading = false;
-
             }
         });
     </script>
