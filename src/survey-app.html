@@ -49,11 +49,6 @@
         <iron-ajax id="ajax" method="post" url="http://hci.honigpuler.de/receiver.php" content-type='application/json' on-response="hresponse">
         </iron-ajax>
 
-        <firebase-app auth-domain="hci-survey-app.firebaseapp.com" database-url="https://hci-survey-app.firebaseio.com/" api-key="9WVnqHhue4FOHSf5h4Gew1yd0s8fkjuIXVIA1bHj" name="participantData">
-        </firebase-app>
-        <firebase-document id="firebaseSend" app-name="participantData" data="{{data}}">
-        </firebase-document>
-
         <app-header effects="parallax-background">
             <app-toolbar>
                 <div title>HCI-Umfrage App</div>
@@ -266,14 +261,9 @@
                 //console.log('both surveys completed');
                 console.log(this.data);
 
-                this.$.firebaseSend.save(this.participantId);
                 this.$.ajax.body = JSON.stringify(this.data);
                 //console.log(JSON.stringify(this.data));
                 this.$.ajax.generateRequest();
-            }
-            , hresponse: function (request) {
-                console.log(request.detail.response);
-                console.log(this.$.ajax.lastResponse);
             }
         });
     </script>
