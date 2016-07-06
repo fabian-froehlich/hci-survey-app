@@ -1,0 +1,77 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="survey-questionnaire-mq">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            .card {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                margin: 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+            
+            .startEndBtn {
+                padding-bottom: 40px;
+            }
+            
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                }
+                ;
+            }
+            
+            paper-button.indigo[disabled] {
+                background-color: grey;
+            }
+        </style>
+        <!-- multiple question per side treatment -->
+        <div>
+            <template is="dom-repeat" items="[[questions]]" id="survey_form">
+                <div class="card">
+                    <survey-question nr="[[index]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{data}}"></survey-question>
+                </div>
+            </template>
+            <div class="startEndBtn">
+                <paper-button raised on-tap="endSurvey" class="custom indigo">
+                    Umfrage abschließen
+                </paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+
+            is: 'survey-questionnaire-mq',
+
+            properties: {
+                treatment: {
+                    type: String
+                }
+                , variant: {
+                    type: String
+                }
+                , data: Object
+                , questions: {
+                    type: Object
+                }
+            }
+            , endSurvey: function () {
+                this.data.timestampEnd = Date.now();
+                //DEBUG OUTPUT
+                //console.log("finished subsurvey");
+                //console.log(this.data)
+                this.fire('finishSubSurvey');
+            }
+        });
+    </script>
+</dom-module>

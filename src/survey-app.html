@@ -1,26 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<!-- IRON ELEMENTS -->
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
-<!--<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">-->
-<!--<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">-->
-
-<!-- PAPER ELEMENTS -->
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<!--<link rel="import" href="../bower_components/paper-behaviors/paper-button-behavior.html">-->
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-
-<!-- APP ELEMENTS -->
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<!--<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">-->
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-
-<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-
-<link rel="import" href="./survey-question.html">
-<link rel="import" href="./survey-questionnaire.html">
+<link rel="import" href="elements.html">
 
 <dom-module id="survey-app">
     <template>
@@ -48,8 +26,6 @@
                 background-color: #fff;
                 color: #757575;
                 min-height: 400px;
-                /*height: 40vh;*/
-                /*@apply(--layout-vertical);*/
             }
             
             paper-button.indigo {
@@ -94,7 +70,6 @@
             </paper-button>
 
         </div>
-
         <!--
   	# # # # # # # # # # # # # # # # # 
   	# SPSQ-LONG-SHORT STARTING HERE #
@@ -102,10 +77,10 @@
     -->
         <template is="dom-if" if="[[_isFirstOption]]">
             <template is="dom-if" if="[[_isFirstSurvey]]">
-                <survey-questionnaire treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
             <template is="dom-if" if="[[_isSecondSurvey]]">
-                <survey-questionnaire treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
         </template>
         <!--
@@ -115,10 +90,10 @@
     -->
         <template is="dom-if" if="[[_isSecondOption]]">
             <template is="dom-if" if="[[_isFirstSurvey]]">
-                <survey-questionnaire hidden$="[[!_isFirstSurvey]]" treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="sq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
             <template is="dom-if" if="[[_isSecondSurvey]]">
-                <survey-questionnaire hidden$="[[!_isSecondSurvey]]" treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="sq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
         </template>
         <!--
@@ -128,10 +103,10 @@
     -->
         <template is="dom-if" if="[[_isThirdOption]]">
             <template is="dom-if" if="[[_isFirstSurvey]]">
-                <survey-questionnaire hidden$="[[!_isFirstSurvey]]" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
             <template is="dom-if" if="[[_isSecondSurvey]]">
-                <survey-questionnaire hidden$="[[!_isSecondSurvey]]" treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
         </template>
         <!--
@@ -141,17 +116,16 @@
     -->
         <template is="dom-if" if="[[_isFourthOption]]">
             <template is="dom-if" if="[[_isFirstSurvey]]">
-                <survey-questionnaire hidden$="[[!_isFirstSurvey]]" treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="mq" variant="short" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
             <template is="dom-if" if="[[_isSecondSurvey]]">
-                <survey-questionnaire hidden$="[[!_isSecondSurvey]]" treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire>
+                <survey-questionnaire-chooser treatment="mq" variant="long" data="{{data}}" questions="[[questions]]"></survey-questionnaire-chooser>
             </template>
         </template>
 
         <div class="card" hidden="[[!_isSurveyEnd]]">
             Vielen Dank für die Teilnahme an der Umfrage!
         </div>
-
     </template>
     <script>
         Polymer({
@@ -259,6 +233,7 @@
                 }
             }
             , beginSurvey: function (e) {
+                this._isLoading = true;
                 //choose the survey type
                 var nr = this.participantId % 4;
 
@@ -282,13 +257,14 @@
                 //hide the initial participant form
                 this._isSignedIn = true;
                 this._isFirstSurvey = true;
+                this._isLoading = false;
             }
 
             , //Send function
             sendSurvey: function (e) {
                 //DEBUG OUTPUT
                 //console.log('both surveys completed');
-                //console.log(this.data);
+                console.log(this.data);
 
                 this.$.firebaseSend.save(this.participantId);
                 this.$.ajax.body = JSON.stringify(this.data);

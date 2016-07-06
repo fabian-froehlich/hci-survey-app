@@ -2,7 +2,10 @@
     "entrypoint": "index.html",
     "shell": "src/survey-app.html",
     "fragments": [
-        "src/survey-question.html",
-        "src/survey-questionnaire.html"
+        "src/loading-element.html",
+        "src/survey-questionnaire-chooser.html",
+        "src/survey-questionnaire-mq.html",
+        "src/survey-questionnaire-sq.html",
+        "src/survey-question.html"
   ]
 }

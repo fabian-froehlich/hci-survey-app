@@ -1,0 +1,135 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="survey-questionnaire-sq">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            .card {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                margin: 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+            
+            .startEndBtn {
+                padding-bottom: 40px;
+            }
+            
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                }
+                ;
+            }
+            
+            paper-button.indigo[disabled] {
+                background-color: grey;
+            }
+        </style>
+        <!-- single question per side treatment -->
+        <iron-pages id="sqPages" selected="{{sqPagesSelector}}">
+            <template is="dom-repeat" items="[[questions]]">
+                <div class="card">
+                    <survey-question treatment="[[treatment]]" nr="[[index]]" question="[[item.question]]" mode="[[item.mode]]" answers="[[item.answers]]" data="{{data}}"></survey-question>
+                    <div class="navigationBtn">
+                        <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo back">
+                            Zurück
+                        </paper-button>
+                        <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo next">
+                            Weiter
+                        </paper-button>
+                    </div>
+                </div>
+            </template>
+            <div class="card">
+                <div class="startEndBtn">
+                    <paper-button raised on-tap="endSurvey" class="custom indigo">
+                        Umfrage abschließen
+                    </paper-button>
+                </div>
+                <div class="navigationBtn">
+                    <paper-button disabled="[[_isFirstQuestion]]" raised on-tap="previousQuestion" class="custom indigo">
+                        Zurück
+                    </paper-button>
+                    <paper-button disabled="[[_isLastQuestion]]" style="float:right" raised on-tap="nextQuestion" class="custom indigo">
+                        Weiter
+                    </paper-button>
+                </div>
+            </div>
+        </iron-pages>
+    </template>
+    <script>
+        Polymer({
+
+            is: 'survey-questionnaire-sq',
+
+            properties: {
+                treatment: {
+                    type: String
+                }
+                , variant: {
+                    type: String
+                }
+                , data: Object
+                , questions: {
+                    type: Object
+                }
+                , _isFirstQuestion: {
+                    computed: '_computeIsFirstQuestion(sqPagesSelector)'
+                }
+                , _isLastQuestion: {
+                    computed: '_computeIsLastQuestion(sqPagesSelector, questions.length)'
+                }
+                , sqPagesSelector: {
+                    type: Number
+                    , value: 0
+                }
+            }
+            , _computeIsFirstQuestion: function (pageIdx) {
+                return pageIdx == 0 ? true : false;
+            }
+            , _computeIsLastQuestion: function (pageIdx, questionsLength) {
+                return pageIdx >= questionsLength;
+            }, //Functions for next and previous buttons in SPSQ-Survey
+            nextQuestion: function (e) {
+                var pages = this.$.sqPages;
+                var qIdx = pages.selected;
+                pages.selectNext();
+                if (this.data.timestampsNavigation[qIdx] instanceof Array === false) {
+                    this.data.timestampsNavigation[qIdx] = new Array();
+                }
+                this.data.timestampsNavigation[qIdx].push({
+                    "button": "next"
+                    , "time": Date.now()
+                });
+            }
+            , previousQuestion: function (e) {
+                var pages = this.$.sqPages;
+                var qIdx = pages.selected;
+                pages.selectPrevious();
+                if (this.data.timestampsNavigation[qIdx] instanceof Array === false) {
+                    this.data.timestampsNavigation[qIdx] = new Array();
+                }
+                this.data.timestampsNavigation[qIdx].push({
+                    "button": "previous"
+                    , "time": Date.now()
+                });
+            }
+            , endSurvey: function () {
+                this.data.timestampEnd = Date.now();
+                //DEBUG OUTPUT
+                //console.log("finished subsurvey");
+                //console.log(this.data)
+                this.fire('finishSubSurvey');
+            }
+        });
+    </script>
+</dom-module>

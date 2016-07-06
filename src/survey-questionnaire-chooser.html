@@ -1,0 +1,156 @@
+<link rel="import" href="elements.html">
+
+<dom-module id="survey-questionnaire-chooser">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            .card {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                margin: 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+            
+            .startEndBtn {
+                padding-bottom: 40px;
+            }
+            
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                }
+                ;
+            }
+            
+            paper-button.indigo[disabled] {
+                background-color: grey;
+            }
+        </style>
+        <div id="[[treatment]]-[[variant]]">
+            <template is="dom-if" if="[[_isIntroduction]]">
+                <div class="card">
+                    <div class="description"> [[actualDescription]]</div>
+                    <div class="startEndBtn">
+                        <paper-button raised on-tap="startSurvey" class="custom indigo">
+                            Starten
+                        </paper-button>
+                    </div>
+                </div>
+            </template>
+            <loading-element loading=[[loading]] content-id="content">
+                <div id="content">
+                    <template is="dom-if" if="[[_isSqActive]]">
+                        <!-- single question per side treatment -->
+                        <survey-questionnaire-sq treatment="{{treatment}}" questions="{{actualQuestions}}" data="{{actualData}}"></survey-questionnaire-sq>
+                    </template>
+
+                    <template is="dom-if" if="[[_isMqActive]]">
+                        <!-- multiple question per side treatment -->
+                        <survey-questionnaire-mq treatment="{{treatment}}" questions="{{actualQuestions}}" data="{{actualData}}"></survey-questionnaire-mq>
+                    </template>
+                </div>
+            </loading-element>
+
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'survey-questionnaire-chooser',
+
+            properties: {
+                treatment: {
+                    type: String
+                }
+                , variant: {
+                    type: String
+                }
+                , data: Object
+                , questions: {
+                    type: Object
+                    , observer: '_onQuestionsChanged'
+                }
+                , _isSQ: {
+                    type: Boolean
+                    , value: false
+                    , computed: '_computeIsSQ(treatment)'
+                }
+                , _isMQ: {
+                    type: Boolean
+                    , value: false
+                    , computed: '_computeIsMQ(treatment)'
+                }
+                , _isIntroduction: {
+                    type: Boolean
+                    , value: true
+                }
+                , _isSqActive: {
+                    type: Boolean
+                    , value: false
+                }
+                , _isMqActive: {
+                    type: Boolean
+                    , value: false
+                }
+                , sqPagesSelector: {
+                    type: Number
+                    , value: 0
+                }
+                , loading: {
+                    type: Boolean
+                    , value: false
+                }
+            }
+            , ready: function () {
+                if (this.variant == 'short') {
+                    this.actualData = this.data.shortSurvey;
+                    this.actualSurveyType = 'shortSurvey'
+                }
+                if (this.variant == 'long') {
+                    this.actualData = this.data.longSurvey;
+                    this.actualSurveyType = 'shortSurvey'
+                }
+            }
+            , _onQuestionsChanged: function () {
+                if (this.variant == 'short') {
+                    this.actualQuestions = this.questions.shortSurvey;
+                    this.actualDescription = this.questions.shortDescription;
+                }
+                if (this.variant == 'long') {
+                    this.actualQuestions = this.questions.longSurvey;
+                    this.actualDescription = this.questions.longDescription;
+                }
+            }
+            , _computeIsSQ: function (treatment) {
+                return treatment == 'sq';
+            }
+            , _computeIsMQ: function (treatment) {
+                return treatment == 'mq';
+            }
+            , startSurvey: function () {
+                this.loading = true;
+                this._isIntroduction = false;
+                this.actualData.timestampStart = Date.now();
+                this.data.treatment = this.treatment;
+                this.data.variant = this.data.variant + this.variant;
+                if (this._isSQ) {
+                    this._isSqActive = true;
+                }
+                if (this._isMQ) {
+                    this._isMqActive = true;
+                }
+                this.loading = false;
+
+            }
+        });
+    </script>
+</dom-module>
